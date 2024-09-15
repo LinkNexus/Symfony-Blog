@@ -1,0 +1,279 @@
+<header class="main-header">
+    <div class="search-bar-part">
+        <a href="{{ path('app_home') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+        </a>
+        <div class="fake-search-bar form-control" contenteditable="true">
+            <twig:ux:icon name="wpf:search" />
+            <span>Search on Nexus</span>
+        </div>
+    </div>
+
+    <div class="nav-icons-part">
+        <a href="{{ path('app_home') }}" class="icon-block home-icon">
+            <twig:ux:icon name="ion:home" class="nav-icon" />
+        </a>
+        <a class="icon-block friends-icon">
+            <twig:ux:icon name="heroicons:users-solid" />
+        </a>
+        <a class="icon-block games-icon">
+            <twig:ux:icon name="ion:game-controller-outline" />
+        </a>
+        <a class="icon-block groups-icon">
+            <twig:ux:icon name="fa-solid:users" />
+        </a>
+        <a class="icon-block marketplace-icon">
+            <twig:ux:icon name="bi:shop" />
+        </a>
+        <a class="icon-block menu-icon">
+            <twig:ux:icon name="zondicons:menu" />
+        </a>
+    </div>
+    
+    <div class="header-actions">
+        <div class="header-action create-action">
+            <twig:ux:icon name="ic:baseline-plus" />
+        </div>
+        <div class="header-action menu-action">
+            <twig:ux:icon name="subway:menu" />
+        </div>
+        <div class="header-action">
+            <twig:ux:icon name="mdi:flask" />
+        </div>
+        <div class="header-action">
+            <twig:ux:icon name="clarity:notification-solid" />
+        </div>
+        <div class="header-action profile-picture">
+            {% set avatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+            <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
+        </div>
+    </div>
+</header>
+
+<form method="post" class="search-form">
+    <div>
+        <div class="return-icon">
+            <twig:ux:icon name="ic:sharp-arrow-back" />
+        </div>
+        <input class="form-control" name="term" type="search" placeholder="Search on Nexus">
+    </div>
+    <div class="recent-searches">
+        No recent searches
+    </div>
+</form>
+
+<div class="main-menu">
+    <h2>Menu</h2>
+
+    <div class="main-menu-sections">
+        <div class="main-menu-elements">
+            <div class="fake-search-input form-control" contenteditable="true">
+                <twig:ux:icon name="wpf:search" />
+                <span>Search Menu</span>
+            </div>
+            <input type="search" placeholder="Search Menu" class="menu-search-input form-control">
+
+            <div class="main-menu-section">
+                <h3>Social</h3>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/timetable.png') }}" alt="">
+                    <div>
+                        <span>Events</span>
+                        <p>Organize and find events and other things to do online and nearby</p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/friends.png') }}" alt="">
+                    <div>
+                        <span>Friends</span>
+                        <p>Find friends or persons you know.</p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/diversity.png') }}" alt="">
+                    <div>
+                        <span>Groups</span>
+                        <p>Connect with people who share your interests.</p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/newsfeed.png') }}" alt="">
+                    <div>
+                        <span>Feed</span>
+                        <p>
+                            Consult recent and meaningful posts of people, friends, groups
+                            and more.
+                        </p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/facebook-page.png') }}" alt="">
+                    <div>
+                        <span>Pages</span>
+                        <p>Discover and connect with businesses on Nexus.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="main-menu-section">
+                <h3>Entertainment</h3>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/game.png') }}" alt="">
+                    <div>
+                        <span>Play Games</span>
+                        <p>
+                            Play your favorite games
+                        </p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/smart-tv.png') }}" alt="">
+                    <div>
+                        <span>Videos</span>
+                        <p>
+                            A Video Destination personalized to your interests and connections.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="main-menu-section">
+                <h3>Shopping</h3>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/atm-card.png') }}" alt="">
+                    <div>
+                        <span>Orders and Payment</span>
+                        <p>
+                            A seamless, secure way to pay on the apps you already use.
+                        </p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/shop.png') }}" alt="">
+                    <div>
+                        <span>Marketplace</span>
+                        <p>
+                            Buy and sell in your Community.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="main-menu-section">
+                <h3>Personal</h3>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/clock.png') }}" alt="">
+                    <div>
+                        <span>Memories</span>
+                        <p>
+                            Browse your old photos, videos and posts on TheNexus.
+                        </p>
+                    </div>
+                </a>
+                <a href="#" class="main-menu-element">
+                    <img src="{{ asset('images/icons/bookmark.png') }}" alt="">
+                    <div>
+                        <span>Saved</span>
+                        <p>
+                            Find posts, photos and videos that you saved for later.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-menu-actions">
+            <h3>Create</h3>
+            <div>
+                <a href="{{ path('app_post_create') }}" class="main-menu-action">
+                    <div><twig:ux:icon name="mingcute:edit-line" class="main-menu-icon" /></div>
+                    <span>Post</span>
+                </a>
+                <a href="#" class="main-menu-action">
+                    <div><twig:ux:icon name="ph:video-bold" class="main-menu-icon" /></div>
+                    <span>Story</span>
+                </a>
+            </div>
+            <div>
+                <a href="#" class="main-menu-action">
+                    <div><twig:ux:icon name="icomoon-free:flag" class="main-menu-icon" /></div>
+                    <span>Page</span>
+                </a>
+                <a href="#" class="main-menu-action">
+                    <div><twig:ux:icon name="heroicons:user-group-20-solid" class="main-menu-icon" /></div>
+                    <span>Group</span>
+                </a>
+                <a href="#" class="main-menu-action">
+                    <div><twig:ux:icon name="material-symbols:event-busy-sharp" class="main-menu-icon" /></div>
+                    <span>Event</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-menu">
+    <div class="profiles-block">
+        <div class="profile">
+            <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+            <span>{{ user.username }}</span>
+        </div>
+        <a href="">See all profiles</a>
+    </div>
+    <div class="profile-menu-actions">
+        <div class="profile-menu-action">
+            <div>
+                <twig:ux:icon name="material-symbols:settings" />
+            </div>
+            <span>Settings & Privacy</span>
+        </div>
+        <div class="profile-menu-action">
+            <div>
+                <twig:ux:icon name="ic:baseline-help" />
+            </div>
+            <span>Help & Support</span>
+        </div>
+        <div class="dark-mode profile-menu-action">
+            <div>
+                <twig:ux:icon name="ion:moon" />
+            </div>
+            <span>Dark Mode</span>
+        </div>
+        <div style="display: none" class="light-mode profile-menu-action">
+            <div>
+                <twig:ux:icon name="clarity:sun-solid" />
+            </div>
+            <span>Light Mode</span>
+        </div>
+        <div class="profile-menu-action">
+            <div>
+                <twig:ux:icon name="material-symbols:feedback" />
+            </div>
+            <span>Give Feedback</span>
+        </div>
+        {% if 'ROLE_ADMIN' in user.roles %}
+            <div onclick="window.location.href = '{# {{ path('admin') }} #}'" class="profile-menu-action">
+                <div>
+                    <twig:ux:icon name="eos-icons:admin" />
+                </div>
+                <span>Admin Section</span>
+            </div>
+        {% endif %}
+        <div onclick="window.location.href = '{{ path('app_logout') }}'" class="profile-menu-action">
+            <div>
+                <twig:ux:icon name="majesticons:logout" />
+            </div>
+            <span>Log Out</span>
+        </div>
+    </div>
+</div>
+
+<script>
+   const darkModeButton = document.querySelector('.dark-mode'),
+         lightModeButton = document.querySelector('.light-mode');
+
+   darkModeButton.addEventListener('click', function () {
+       localStorage.setItem('darkMode', 'enabled');
+       darkModeButton.style.display = 'none';
+       lightModeButton.style.display = 'flex';
+
+   })
+</script>

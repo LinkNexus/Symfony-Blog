@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Login with Email{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% block body %}
+    <div class="magic-link-section">
+        <div class="website-name">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+            <h1 id="site-name">TheNexus</h1>
+        </div>
+
+        <div class="magic-link-form-container">
+            <form class="magic-link-form" action="{{ path('app_request_login_link') }}" method="POST">
+                <h2>Sign in with Email</h2>
+
+                {% include 'base/_flash_messages.html.twig' %}
+
+                <input autocomplete="email" class="form-control" placeholder="Email" type="email" name="email">
+
+                <button class="button" type="submit">Sign In</button>
+
+                <p>
+                    <a href="{{ path('app_forgot_password_request') }}">Reset Password</a>
+                    <a href="{{ path('app_login') }}">Use Username instead</a>
+                </p>
+            </form>
+            <a href="#" class="button">Sign Up</a>
+        </div>
+    </div>
+{% endblock %}
+

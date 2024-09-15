@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Log in!{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% block body %}
+    <div class="login-section">
+        <div class="login-text-container">
+            <div class="website-name">
+                <img src="{{ asset('images/logo.png') }}" alt="logo">
+                <h1 id="site-name">TheNexus</h1>
+            </div>
+            <p>
+                Nexus is a technology platform for beginners, researchers, etc.
+                The goal here is to help each other by sharing our knowledge
+                on the various technology fields. Nexus is here to bring us closer!
+            </p>
+        </div>
+        <div class="login-form-container">
+            <form method="post" class="login-form toggle-password-container">
+                <h2>Login!</h2>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="alert alert-info mb-3">
+                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+                {% include 'base/_flash_messages.html.twig' %}
+
+                <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" placeholder="Username" required autofocus>
+                <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" placeholder="Password" required
+                        {{ stimulus_controller('symfony/ux-toggle-password/toggle-password', {
+                            buttonClasses: ['toggle-password-button'],
+                        }) }}
+                >
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me" checked> Remember me
+                    </label>
+                </div>
+
+                <button class="button" type="submit">
+                    Sign in
+                </button>
+
+                <p>
+                    <a href="{{ path('app_forgot_password_request') }}">Reset Password</a>
+                    <a href="{{ path('app_request_login_link') }}">Use Email Instead</a>
+                </p>
+            </form>
+            <a href="{{ path('app_register') }}" class="button sign-up-button">Sign Up</a>
+        </div>
+    </div>
+{% endblock %}

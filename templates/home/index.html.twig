@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Home{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('main') }}
+    {{ encore_entry_link_tags('posts') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('main') }}
+    {{ encore_entry_script_tags('posts') }}
+    {{ encore_entry_script_tags('comments') }}
+{% endblock %}
+
+{% block body %}
+
+    <style>
+        .icon-block {
+            &:not(.home-icon) {
+                border-radius: 10px;
+
+                &:hover {
+                    background: var(--principal-background);
+                }
+            }
+
+            &.home-icon {
+                border-bottom: 5px solid var(--principal-color);
+
+                & svg > path {
+                    fill: var(--principal-color) !important;
+                }
+            }
+        }
+    </style>
+
+    {% include 'base/_main_header.html.twig' %}
+
+    <div class="main-section-container">
+        {% include 'base/_left-aside-menu.html.twig' %}
+
+        <div class="main-section">
+
+            {% include 'base/_flash_messages.html.twig' %}
+
+            <div class="stories-section">
+                <a class="stories-block">
+                    <div>
+                        <twig:ux:icon name="ic:baseline-plus" />
+                    </div>
+                    <div>
+                        <span>Create Story</span>
+                        <span>Share a photo or write something</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="upload-posts-section">
+                <div>
+                    {% set imagePath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+                    <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
+
+                    <div class="fake-upload-post-input form-control" contenteditable="true">
+                        What's on your mind, {{ user.username }}?
+                    </div>
+                </div>
+                <div class="upload-post-actions">
+                    <a href="#" class="upload-post-action">
+                        <img src="{{ asset('images/icons/live.png') }}" alt="">
+                        <span>Live Video</span>
+                    </a>
+                    <a href="#" class="upload-post-action">
+                        <img src="{{ asset('images/icons/photos.png') }}" alt="">
+                        <span>Photos/videos</span>
+                    </a>
+                    <a href="#" class="upload-post-action">
+                        <img src="{{ asset('images/icons/code.png') }}" alt="">
+                        <span>Code</span>
+                    </a>
+                </div>
+            </div>
+
+            {% include 'base/_display_posts.html.twig' %}
+
+        </div>
+
+        {% include 'base/_right-aside-menu.html.twig' %}
+    </div>
+
+{% endblock %}

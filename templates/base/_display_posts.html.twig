@@ -1,0 +1,272 @@
+{% for post in posts %}
+    <div class="post-block" id="post_{{ post.id }}">
+        <div class="post-header">
+            <div class="profile">
+                {% set postAvatarPath = 'images/' ~ post.owner.gender ~ '_icon.jpg' %}
+                <img src="{{ asset(postAvatarPath) }}" alt="">
+                <div>
+                    <a href="#" class="user-username">{{ post.owner.username }}</a>
+                    <span>{{ post.createdAt|ago }}</span>
+                </div>
+            </div>
+
+            <div id="post-menu-button{{ post.id }}" class="post-menu-button">
+                <twig:ux:icon name="solar:menu-dots-bold" />
+            </div>
+        </div>
+
+        <div class="categories">
+            {% for category in post.categories %}
+                <a href="#" class="category">
+                    {{ category.icon|raw }}
+                    <span>{{ category.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="fr-view">
+            {{ post.content|raw }}
+        </div>
+
+        {% dump(post) %}
+
+        <div class="post-reacts-infos">
+            <div class="post-reacts-number">
+                {% for react in post.postReactions %}
+                    {% if react.owner == user %}
+                        {% if react.type == 'like' %}
+                            <style>
+                                #post_{{ post.id }} .like {
+                                    color: var(--principal-color);
+                                }
+                            </style>
+
+                        {% else %}
+                            <style>
+                                #post_{{ post.id }} .dislike {
+                                    color: red;
+                                }
+                            </style>
+
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="post-likes">
+                    <twig:ux:icon name="mdi:like" class="post-like-icon" />
+                    <span id="likes-number{{ post.id }}" class="likes-number">
+                        {% set likes = 0 %}
+                        {% for react in post.postReactions %}
+                            {% if react.type == 'like' %}
+                                {% set likes = likes + 1 %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {{ likes }}
+                    </span>
+                </div>
+                <div class="post-dislikes">
+                    <twig:ux:icon name="mdi:dislike" class="post-dislike-icon" />
+                    <span id="dislikes-number{{ post.id }}" class="dislikes-number">
+                        {% set dislikes = 0 %}
+                        {% for react in post.postReactions %}
+                            {% if react.type == 'dislike' %}
+                                {% set dislikes = dislikes + 1 %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {{ dislikes }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="post-comments-number">
+                <span>
+                    {% set commentsNumber = 0 %}
+                    {% for comment in post.comments %}
+                        {% set commentsNumber = commentsNumber + 1 %}
+                    {% endfor %}
+
+                    {{ commentsNumber }}
+                </span>
+                <twig:ux:icon name="iconamoon:comment-fill" />
+            </div>
+        </div>
+
+        <div class="post-actions">
+            <a href="#" id="like{{ post.id }}" class="like post-action">
+                <twig:ux:icon name="uiw:like-o" />
+                <span>Like</span>
+            </a>
+            <a href="#" id="dislike{{ post.id }}" class="dislike post-action">
+                <twig:ux:icon name="uiw:dislike-o" />
+                <span>Dislike</span>
+            </a>
+            <a href="{{ path('app_post_show', { 'id': post.id }) }}#comments" class="post-action">
+                <twig:ux:icon name="iconamoon:comment-light" />
+                <span>Comment</span>
+            </a>
+            <a href="#" class="share post-action">
+                <twig:ux:icon name="uil:share" />
+                <span>Share</span>
+            </a>
+        </div>
+        <div class="post-comments">
+            <div class="filters-block">
+                <div id="selected-filter{{ post.id }}" class="selected-filter">
+                    <span>Newest</span>
+                    <twig:ux:icon name="icons8:chevron-down" />
+                </div>
+                <div id="filters{{ post.id }}" class="filters">
+                    <div class="filter more-reactions">
+                        <span class="filter-title">More Reactions</span>
+                        <span class="filter-text">Show comments with the highest number of reactions first</span>
+                    </div>
+                    <div class="filter less-reactions">
+                        <span class="filter-title">Less Reactions</span>
+                        <span class="filter-text">Show comments with the lowest number of reactions first</span>
+                    </div>
+                    <div class="filter oldest-comments">
+                        <span class="filter-title">Oldest</span>
+                        <span class="filter-text">Show all oldest comments first</span>
+                    </div>
+                    <div class="filter newest-comments">
+                        <span class="filter-title">Newest</span>
+                        <span class="filter-text">Show all newest comments first</span>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-bar" id="create-comment-bar" data-post-id="{{ post.id|trans }}">
+                {% set avatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+                <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+                <form action="">
+                    <textarea onclick="location.href = '{{ path('app_post_show', { id: post.id }) }}'" class="form-control comment-input" id="comment-input-{{ post.id }}" placeholder="Comment as {{ user.username }}"></textarea>
+                    <twig:ux:icon class="comment-button" name="fa-brands:telegram-plane" id="comment-form-button-{{ post.id }}" data-post-id="{{ post.id|trans }}" />
+                </form>
+            </div>
+            <div class="comments" id="comments">
+                {% if not onHomePage %}
+                    {% include "base/_display_comments.html.twig" %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="post-menu-block">
+        <div id="post-menu{{ post.id }}" class="post-menu" data-post-id="{{ post.id }}">
+            <div class="post-menu-action">
+                <twig:ux:icon name="material-symbols:bookmark" />
+                <div>
+                    <span class="principal-text">Save Post</span>
+                    <span>Add this to your saved items</span>
+                </div>
+            </div>
+            <div class="post-menu-action">
+                <twig:ux:icon name="ph:code-bold" />
+                <span class="principal-text">Embed</span>
+            </div>
+            {% if post.owner.username == user.username %}
+                <style>
+                    .report-post {
+                        display: none !important;
+                    }
+
+                    .hide-post {
+                        display: none !important;
+                    }
+
+                    .snooze {
+                        display: none !important;
+                    }
+
+                    .block {
+                        display: none !important;
+                    }
+                </style>
+            {% endif %}
+            <div class="post-menu-action report-post">
+                <twig:ux:icon name="zondicons:shield" />
+                <span class="principal-text">Report post to Admins</span>
+            </div>
+            <div class="post-menu-action hide-post">
+                <twig:ux:icon name="charm:circle-cross" />
+                <span class="principal-text">Hide Post</span>
+            </div>
+            <div class="post-menu-action snooze">
+                <twig:ux:icon name="mingcute:time-fill" />
+                <div>
+                    <span class="principal-text">Snooze {{ post.owner.username }} for 30 days</span>
+                    <span>Temporarily stop seeing {{ post.owner.username }} posts.</span>
+                </div>
+            </div>
+            <div class="post-menu-action block">
+                <twig:ux:icon name="solar:user-block-bold" />
+                <div>
+                    <span class="principal-text">Block {{ post.owner.username }} profile</span>
+                    <span>You won't be able to see or contact each other</span>
+                </div>
+            </div>
+            {% if post.postModifications is empty %}
+                <style>
+                    .see-history {
+                        display: none !important;
+                    }
+                </style>
+            {% endif %}
+            <div id="see-history{{ post.id }}" class="see-history post-menu-action">
+                <twig:ux:icon name="mdi:eye" />
+                <span class="principal-text">See edit history</span>
+            </div>
+            {% if post.owner != user %}
+                <style>
+                    .edit-post {
+                        display: none !important;
+                    }
+                </style>
+            {% endif %}
+            <div id="edit-post{{ post.id }}" class="edit-post post-menu-action">
+                <twig:ux:icon name="ic:sharp-edit" />
+                <span class="principal-text">Edit Post</span>
+            </div>
+
+            {% dump(user) %}
+
+            {% if post.owner.username != user.userIdentifier and 'ROLE_ADMIN' not in user.roles %}
+                <style>
+                    .delete-post {
+                        display: none !important;
+                    }
+                </style>
+            {% endif %}
+            <div id="delete-post{{ post.id }}" class="delete-post post-menu-action">
+                <twig:ux:icon name="material-symbols:delete" />
+                <span class="principal-text">Delete Post</span>
+            </div>
+        </div>
+    </div>
+    <div class="post-reactions-container-block">
+        <div class="post-reactions-container">
+            <div class="post-reactions-container-header">
+                <h2>Reactions</h2>
+                <div class="post-reactions-container-close">
+                    <twig:ux:icon name="material-symbols:close" />
+                </div>
+            </div>
+            <div class="post-reactions-container-content">
+                {% for reaction in post.postReactions %}
+                    <div class="reaction-block">
+                        {% set avatarPath = 'images/' ~ reaction.owner.gender ~ '_icon.jpg' %}
+                        <img src="{{ asset(avatarPath) }}" alt="profile-picture">
+                        <a href="">{{ reaction.owner.username }}</a>
+
+                        {% if reaction.type == "like" %}
+                            <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                        {% else %}
+                            <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endfor %}

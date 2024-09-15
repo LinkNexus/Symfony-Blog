@@ -1,0 +1,36 @@
+{{ form_start(form, { 'attr': {'class': 'create-post-form'} }) }}
+
+     {% include 'base/_flash_messages.html.twig' %}
+
+    <div class="profile">
+        {% set imagePath = 'images/' ~ app.user.gender ~ '_icon.jpg' %}
+        <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
+        <div>
+            <a href="#">{{ app.user.username }}</a>
+            {{ form_widget(form.audienceType) }}
+            {#  <div class="post-restriction form-select">
+                     <twig:ux:icon name="heroicons:users-solid" />
+                     <span>Friends</span>
+                 </div> #}
+        </div>
+        <div class="post-form-audience">
+            <h2>Friends Except...</h2>
+            {{ form_widget(form.postAudience) }}
+            <button type="button" class="btn button">Save</button>
+        </div>
+    </div>
+
+    <div class="categories-field">
+        {{ form_row(form.categories) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.content) }}
+    </div>
+
+    <button type="submit" class="button btn">
+        Submit
+    </button>
+
+{{ form_end(form) }}
+

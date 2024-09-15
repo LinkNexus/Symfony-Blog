@@ -1,0 +1,42 @@
+{{ form_start(form, { attr: {'class': 'register-form'} }) }}
+
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div>
+        {{ form_errors(form) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.username) }}
+        {{ form_errors(form.username) }}
+    </div>
+    <div class="email-field">
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    <div>
+        {{ form_widget(form.plainPassword.first) }}
+        {{ form_errors(form.plainPassword.first) }}
+    </div>
+    <div>
+        {{ form_widget(form.plainPassword.second) }}
+        {{ form_errors(form.plainPassword.second) }}
+    </div>
+    <div class="birth-date-field">
+        <p>Birth Date <twig:ux:icon name="ph:calendar" class="symfony-icon" /></p>
+        {{ form_widget(form.bornAt) }}
+        {{ form_errors(form.bornAt) }}
+    </div>
+    <div class="gender-field">
+        <p>Gender <twig:ux:icon name="icons8:gender" class="symfony-icon" /></p>
+        {{ form_widget(form.gender) }}
+        {{ form_errors(form.gender) }}
+    </div>
+    <div class="agree-terms-field">
+        {{ form_widget(form.agreeTerms) }}
+        {{ form_errors(form.agreeTerms) }}
+    </div>
+    {{ form_widget(form.submit) }}
+{{ form_end(form) }}

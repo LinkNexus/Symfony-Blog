@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Password Reset Email Sent{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% block body %}
+    <div class="reset-password-section">
+        <div class="website-name">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+            <h1 id="site-name">TheNexus</h1>
+        </div>
+        <div class="reset-password-text-container">
+            <h2>Check your Mailbox</h2>
+            <p>
+                If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
+                This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </p>
+            <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+        </div>
+    </div>
+{% endblock %}

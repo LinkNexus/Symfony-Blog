@@ -1,0 +1,202 @@
+@import url("./app.css");
+
+/* Login Section */
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 2%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.login-section .login-text-container {
+    width: 50%;
+    font-size: 1.563rem;
+    margin-top: -25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-section .login-form-container {
+    margin-left: 25px;
+    width: 350px;
+}
+
+/* Magic Link Section */
+
+.magic-link-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .website-name {
+        margin-bottom: 20px;
+    }
+}
+
+.magic-link-form-container {
+    width: 500px;
+}
+
+/* Registration Section */
+
+.register-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .website-name {
+        margin-bottom: 20px;
+    }
+}
+
+.register-form-container {
+    width: 500px;
+
+    & .register-title {
+        border-bottom: 1px solid #dadde1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    & .register-form {
+        & div {
+            width: 100%;
+
+            & .symfony-icon {
+                height: 20px;
+                width: 20px;
+                display: inline;
+            }
+
+            &.email-field {
+                margin-bottom: 10px;
+            }
+
+            & .toggle-password-container {
+                margin-bottom: -15px;
+
+                & .toggle-password-button {
+                    position: relative;
+                    left: 390px;
+                }
+            }
+
+            & p {
+                display: block;
+            }
+
+            &.birth-date-field {
+                & select {
+                    height: 50px;
+                }
+            }
+
+            &.gender-field {
+                margin-top: 20px;
+
+                & #registration_form_gender {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+
+                    & .form-check {
+                        width: 30%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 50px;
+                        border-radius: 5px;
+                        border: 1px solid #dadde1;
+                        overflow: hidden;
+
+                        & input {
+                            margin-right: 10px;
+                            position: relative;
+                            top: -1px;
+                        }
+                    }
+                }
+            }
+
+            &.agree-terms-field {
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+        }
+
+        & .button {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+/* Reset Password Section */
+
+.reset-password-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.reset-password-form-container {
+    width: 500px;
+
+    & div {
+        width: 100%;
+        margin-bottom: 10px;
+
+        & .toggle-password-container {
+            margin-bottom: -15px;
+
+            & .toggle-password-button {
+                position: relative;
+                left: 390px;
+            }
+        }
+    }
+}
+
+.reset-password-text-container {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    align-items: center;
+    justify-content: center;
+    background: var(--second-background);
+    padding: 20px;
+    border-radius: 8px;
+
+    & h2 {
+        text-align: center;
+    }
+
+    & p {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}

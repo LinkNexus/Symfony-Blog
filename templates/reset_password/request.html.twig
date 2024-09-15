@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Reset your password{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% block body %}
+    <div class="reset-password-section">
+        <div class="website-name">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+            <h1 id="site-name">TheNexus</h1>
+        </div>
+
+        <div class="reset-password-form-container">
+            {{ form_start(requestForm) }}
+            {% for flash_error in app.flashes('reset_password_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+
+            <h2>Reset your password</h2>
+            <div>
+                {{ form_widget(requestForm.email) }}
+                {{ form_errors(requestForm.email) }}
+            </div>
+            <button class="button">Send password reset email</button>
+            {{ form_end(requestForm) }}
+        </div>
+    </div>
+{% endblock %}

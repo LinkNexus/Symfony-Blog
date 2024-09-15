@@ -1,0 +1,490 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Comment Replies{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('main') }}
+    {{ encore_entry_link_tags('comments') }}
+    {{ encore_entry_link_tags('posts') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('main') }}
+    {{ encore_entry_script_tags('comments') }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .icon-block {
+            border-radius: 10px;
+
+            &:hover {
+                background: var(--principal-background);
+            }
+        }
+
+        .post-block {
+            align-self: center;
+            justify-self: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+    </style>
+
+    {% include "base/_main_header.html.twig" %}
+
+    {% include "base/_flash_messages.html.twig" %}
+
+    <div class="post-block comment-replies-section">
+        <h1>Replies</h1>
+        <p class="post-link"><a href="{{ path('app_post_show', { id: comment.post.id }) }}"><twig:ux:icon name="ph:arrow-left" /> <span>Back to {{ comment.post.owner.username }}'s post</span></a></p>
+        <div style="overflow-x: auto; width: 100%">
+            <div class="comment" id="comment-{{ comment.id }}">
+                {% set avatarPath = 'images/' ~ comment.owner.gender ~ '_icon.jpg' %}
+                <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+                <div class="comment-content-block">
+                    <div class="comment-content">
+                        <div class="user-username">{{ comment.owner.username }}</div>
+                        <div class="fr-view">
+                            {% set isHidden = false  %}
+                            {% for hiddenComment in user.hiddenComments %}
+                                {% if hiddenComment.comment == comment %}
+                                    {% set isHidden = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if isHidden %}
+                                <p class="hide-paragraph">This comment is hidden</p>
+                            {% else %}
+                                {{ comment.content|raw }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="comment-actions">
+
+                        {% for react in comment.commentReactions %}
+                            {% if react.owner == user %}
+                                {% if react.type == 'like' %}
+                                    <style>
+                                        #comment-{{ comment.id }} .comment-like {
+                                            color: var(--principal-color);
+                                        }
+                                    </style>
+
+                                {% else %}
+                                    <style>
+                                        #comment-{{ comment.id }} .comment-dislike {
+                                            color: red;
+                                        }
+                                    </style>
+
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <span class="comment-date">{{ comment.createdAt|date("Y-m-d HH:mm") }}</span>
+                        <span class="comment-like comment-react">Like</span>
+                        <span class="comment-dislike comment-react">Dislike</span>
+                        <span class="comment-reply comment-react">Reply</span>
+                        <div class="comment-reactions">
+                            <div class="comment-likes-block">
+                                    <span class="likes-number">
+                                        {% set likes = 0 %}
+                                        {% for react in comment.commentReactions %}
+                                            {% if react.type == 'like' %}
+                                                {% set likes = likes + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {{ likes }}
+                                    </span>
+                                <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                            </div>
+                            <div class="comment-dislikes-block">
+                                    <span class="dislikes-number">
+                                        {% set dislikes = 0 %}
+                                        {% for react in comment.commentReactions %}
+                                            {% if react.type == 'dislike' %}
+                                                {% set dislikes = dislikes + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {{ dislikes }}
+                                    </span>
+                                <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment-menu-block">
+                    <div class="comment-menu-icon">
+                        <twig:ux:icon name="majesticons:more-menu" />
+                    </div>
+                    <div class="comment-menu-container">
+                        <div class="comment-menu">
+                            {% if comment.owner == user %}
+                                <style>
+                                    #comment-{{ comment.id }} {
+                                        .hide-comment, .block-author, .report-comment {
+                                            display: none;
+                                        }
+                                    }
+                                </style>
+                            {% else %}
+                                <style>
+                                    #comment-{{ comment.id }} {
+                                        .edit-comment {
+                                            display: none;
+                                        }
+
+                                    {% if "ROLE_ADMIN" not in user.roles %}
+                                        .delete-comment {
+                                            display: none;
+                                        }
+                                    {% endif %}
+                                    }
+                                </style>
+                            {% endif %}
+
+                            {% if not isHidden %}
+                                <style>
+                                    #comment-{{ comment.id }} .show-comment {
+                                        display: none;
+                                    }
+                                </style>
+                            {% else %}
+                                <style>
+                                    #comment-{{ comment.id }} .hide-comment {
+                                        display: none;
+                                    }
+                                </style>
+                            {% endif %}
+
+                            <style>
+                                #comment-{{ comment.id }} {
+                                    .unblock-author {
+                                        display: none;
+                                    }
+                                }
+                            </style>
+                            {% for block in user.blocks %}
+                                {% if block.blockedUser == comment.owner %}
+                                    <style>
+                                        #comment-{{ comment.id }} {
+                                            .block-author {
+                                                display: none;
+                                            }
+
+                                            .unblock-author {
+                                                display: block;
+                                            }
+                                        }
+                                    </style>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="comment-menu-action unblock-author">Unblock {{ comment.owner.username }}</div>
+                            <div class="comment-menu-action show-comment">Show Comment</div>
+                            <div class="comment-menu-action hide-comment">Hide Comment</div>
+                            <div class="comment-menu-action block-author">Block {{ comment.owner.username }}</div>
+                            <div class="comment-menu-action report-comment">Report Comment</div>
+                            <div class="comment-menu-action edit-comment">Edit Comment</div>
+                            <div class="comment-menu-action delete-comment">Delete Comment</div>
+                            <div class="comment-menu-date comment-menu-action">Posted {{ comment.createdAt|ago }}</div>
+                            <div class="comment-menu-reacts comment-menu-action">
+                                <div class="comment-menu-likes">
+                                    <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                                    <span class="likes-number">
+                                            {% set likes = 0 %}
+                                        {% for react in comment.commentReactions %}
+                                            {% if react.type == 'like' %}
+                                                {% set likes = likes + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {{ likes }}
+                                        </span>
+                                </div>
+                                <div class="comment-menu-dislikes">
+                                    <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                                    <span class="dislikes-number">
+                                            {% set dislikes = 0 %}
+                                        {% for react in comment.commentReactions %}
+                                            {% if react.type == 'dislike' %}
+                                                {% set dislikes = dislikes + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {{ dislikes }}
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment-reactions-container-block">
+                <div class="comment-reactions-container">
+                    <div class="comment-reactions-container-header">
+                        <h2>Reactions</h2>
+                        <div class="comment-reactions-container-close">
+                            <twig:ux:icon name="material-symbols:close" />
+                        </div>
+                    </div>
+                    <div class="reactions-blocks">
+                        {% for reaction in comment.commentReactions %}
+                            <div class="reaction-block">
+                                <img src="{{ asset("images/" ~ reaction.owner.gender|lower ~ "_icon.jpg") }}" alt=profile-picture"">
+                                <a href="#">{{ reaction.owner.username }}</a>
+
+                                {% if reaction.type == "like" %}
+                                    <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                                {% else %}
+                                    <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% for reply in allReplies[comment.id|trans] %}
+
+                <div class="{{ reply.status }}-reply-container">
+
+                    <div class="comment {{ reply.status }}-reply" id="comment-{{ reply.comment.id }}">
+                        {% set avatarPath = 'images/' ~ reply.comment.owner.gender ~ '_icon.jpg' %}
+                        <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+                        <div class="comment-content-block">
+                            <div class="comment-content">
+                                <div class="user-username">{{ reply.comment.owner.username }}</div>
+                                <div class="fr-view">
+                                    {% set isHidden = false  %}
+                                    {% for hiddenComment in user.hiddenComments %}
+                                        {% if hiddenComment.comment == comment %}
+                                            {% set isHidden = true %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if isHidden %}
+                                        <p class="hide-paragraph">This comment is hidden</p>
+                                    {% else %}
+                                        <p><a href="#" class="tag-link">@{{ reply.comment.respondedComment.owner.username }}</a></p>
+                                        {{ reply.comment.content|raw }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="comment-actions">
+
+                                {% for react in reply.comment.commentReactions %}
+                                    {% if react.owner == user %}
+                                        {% if react.type == 'like' %}
+                                            <style>
+                                                #comment-{{ reply.comment.id }} .comment-like {
+                                                    color: var(--principal-color);
+                                                }
+                                            </style>
+
+                                        {% else %}
+                                            <style>
+                                                #comment-{{ reply.comment.id }} .comment-dislike {
+                                                    color: red;
+                                                }
+                                            </style>
+
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                <span class="comment-date">{{ reply.comment.createdAt|date("Y-m-d HH:mm") }}</span>
+                                <span class="comment-like comment-react">Like</span>
+                                <span class="comment-dislike comment-react">Dislike</span>
+                                <span class="comment-reply comment-react">Reply</span>
+                                <div class="comment-reactions">
+                                    <div class="comment-likes-block">
+                                        <span class="likes-number">
+                                            {% set likes = 0 %}
+                                            {% for react in reply.comment.commentReactions %}
+                                                {% if react.type == 'like' %}
+                                                    {% set likes = likes + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {{ likes }}
+                                        </span>
+                                        <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                                    </div>
+                                    <div class="comment-dislikes-block">
+                                        <span class="dislikes-number">
+                                            {% set dislikes = 0 %}
+                                            {% for react in reply.comment.commentReactions %}
+                                                {% if react.type == 'dislike' %}
+                                                    {% set dislikes = dislikes + 1 %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {{ dislikes }}
+                                        </span>
+                                        <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment-menu-block">
+                            <div class="comment-menu-icon">
+                                <twig:ux:icon name="majesticons:more-menu" />
+                            </div>
+                            <div class="comment-menu-container">
+                                <div class="comment-menu">
+                                    {% if reply.comment.owner == user %}
+                                        <style>
+                                            #comment-{{ reply.comment.id }} {
+                                                .hide-comment, .block-author, .report-comment {
+                                                    display: none;
+                                                }
+                                            }
+                                        </style>
+                                    {% else %}
+                                        <style>
+                                            #comment-{{ reply.comment.id }} {
+                                                .edit-comment {
+                                                    display: none;
+                                                }
+
+                                            {% if "ROLE_ADMIN" not in user.roles %}
+                                                .delete-comment {
+                                                    display: none;
+                                                }
+                                            {% endif %}
+                                            }
+                                        </style>
+                                    {% endif %}
+
+                                    {% if not isHidden %}
+                                        <style>
+                                            #comment-{{ reply.comment.id }} .show-comment {
+                                                display: none;
+                                            }
+                                        </style>
+                                    {% else %}
+                                        <style>
+                                            #comment-{{ reply.comment.id }} .hide-comment {
+                                                display: none;
+                                            }
+                                        </style>
+                                    {% endif %}
+
+                                    <style>
+                                        #comment-{{ reply.comment.id }} {
+                                            .unblock-author {
+                                                display: none;
+                                            }
+                                        }
+                                    </style>
+                                    {% for block in user.blocks %}
+                                        {% if block.blockedUser == reply.comment.owner %}
+                                            <style>
+                                                #comment-{{ reply.comment.id }} {
+                                                    .block-author {
+                                                        display: none;
+                                                    }
+
+                                                    .unblock-author {
+                                                        display: block;
+                                                    }
+                                                }
+                                            </style>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="comment-menu-action unblock-author">Unblock {{ reply.comment.owner.username }}</div>
+                                    <div class="comment-menu-action show-comment">Show Comment</div>
+                                    <div class="comment-menu-action hide-comment">Hide Comment</div>
+                                    <div class="comment-menu-action block-author">Block {{ reply.comment.owner.username }}</div>
+                                    <div class="comment-menu-action report-comment">Report Comment</div>
+                                    <div class="comment-menu-action edit-comment">Edit Comment</div>
+                                    <div class="comment-menu-action delete-comment">Delete Comment</div>
+                                    <div class="comment-menu-date comment-menu-action">Posted {{ reply.comment.createdAt|ago }}</div>
+                                    <div class="comment-menu-reacts comment-menu-action">
+                                        <div class="comment-menu-likes">
+                                            <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                                            <span class="likes-number">
+                                                {% set likes = 0 %}
+                                                {% for react in reply.comment.commentReactions %}
+                                                    {% if react.type == 'like' %}
+                                                        {% set likes = likes + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {{ likes }}
+                                            </span>
+                                        </div>
+                                        <div class="comment-menu-dislikes">
+                                            <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                                            <span class="dislikes-number">
+                                                {% set dislikes = 0 %}
+                                                {% for react in reply.comment.commentReactions %}
+                                                    {% if react.type == 'dislike' %}
+                                                        {% set dislikes = dislikes + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {{ dislikes }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-reactions-container-block">
+                        <div class="comment-reactions-container">
+                            <div class="comment-reactions-container-header">
+                                <h2>Reactions</h2>
+                                <div class="comment-reactions-container-close">
+                                    <twig:ux:icon name="material-symbols:close" />
+                                </div>
+                            </div>
+                            <div class="reactions-blocks">
+                                {% for reaction in reply.comment.commentReactions %}
+                                    <div class="reaction-block">
+                                        <img src="{{ asset("images/" ~ reaction.owner.gender|lower ~ "_icon.jpg") }}" alt=profile-picture"">
+                                        <a href="#">{{ reaction.owner.username }}</a>
+
+                                        {% if reaction.type == "like" %}
+                                            <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                                        {% else %}
+                                            <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-bar" id="comment-bar-{{ reply.comment.id }}">
+                        {% set userAvatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+                        <img src="{{ asset(userAvatarPath) }}" alt="profile_picture">
+                        <form action="">
+                            <textarea id="comment-input-{{ reply.comment.id }}" class="form-control comment-input"></textarea>
+                            <twig:ux:icon name="fa-brands:telegram-plane" data-user-id="{{ reply.comment.owner.id|trans }}" data-comment-id="{{ reply.comment.id|trans }}" class="comment-button" data-post-id="{{ reply.comment.post.id|trans }}" />
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="comment-bar" id="comment-bar-{{ comment.id }}">
+            {% set userAvatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+            <img src="{{ asset(userAvatarPath) }}" alt="profile_picture">
+            <form action="">
+                <textarea id="comment-input-{{ comment.id }}" class="form-control comment-input"></textarea>
+                <twig:ux:icon name="fa-brands:telegram-plane" data-user-id="{{ comment.owner.id|trans }}" data-comment-id="{{ comment.id|trans }}" class="comment-button" data-post-id="{{ comment.post.id|trans }}" />
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

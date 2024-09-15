@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Display Post{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('main') }}
+    {{ encore_entry_link_tags('posts') }}
+    {{ encore_entry_link_tags('comments') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('main') }}
+    {{ encore_entry_script_tags('posts') }}
+    {{ encore_entry_script_tags('comments') }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .icon-block {
+            border-radius: 10px;
+
+            &:hover {
+                background: var(--principal-background);
+            }
+        }
+
+        .post-block {
+            align-self: center;
+            justify-self: center;
+        }
+    </style>
+    {% include 'base/_main_header.html.twig' %}
+
+    {% include 'base/_flash_messages.html.twig' %}
+
+    {% include 'base/_display_posts.html.twig' %}
+{% endblock %}
+

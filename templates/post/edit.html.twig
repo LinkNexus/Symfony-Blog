@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Modify Post{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('main') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('main') }}
+{% endblock %}
+
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+    <style>
+        .icon-block {
+            border-radius: 10px;
+
+            &:hover {
+                background: var(--principal-background);
+            }
+        }
+
+        /* #post_form_restrictionType {
+            display: none;
+        } */
+    </style>
+    {% include 'base/_main_header.html.twig' %}
+
+    <div class="create-post-form-container">
+        <h2>Update Post</h2>
+
+        {% include 'base/_flash_messages.html.twig' %}
+
+        {% include 'post/_form.html.twig' %}
+    </div>
+
+    <script>
+
+        // setHiddenTextareaObserver();
+    </script>
+{% endblock %}

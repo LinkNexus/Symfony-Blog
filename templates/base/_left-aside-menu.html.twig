@@ -1,0 +1,66 @@
+<aside class="left-aside-menu">
+
+    <div class="left-aside-menu-elements">
+        <a href="#" class="left-aside-menu-element">
+            {% set avatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+            <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
+            <span>{{ user.username }}</span>
+        </a>
+        <a href="#" class="left-aside-menu-element">
+            <img src="{{ asset('images/icons/friends.png') }}" alt="">
+            <span>Friends</span>
+        </a>
+        <a href="#" class="left-aside-menu-element">
+            <img src="{{ asset('images/icons/newsfeed.png') }}" alt="">
+            <span>Feeds</span>
+        </a>
+        <a href="#" class="left-aside-menu-element">
+            <img src="{{ asset('images/icons/diversity.png') }}" alt="">
+            <span>Groups</span>
+        </a>
+        <a href="#" class="left-aside-menu-element">
+            <img src="{{ asset('images/icons/shop.png') }}" alt="">
+            <span>Marketplace</span>
+        </a>
+        <a href="#" class="left-aside-menu-element">
+            <img src="{{ asset('images/icons/clock.png') }}" alt="">
+            <span>Memories</span>
+        </a>
+        <a href="#" class="left-aside-menu-element">
+            <img src="{{ asset('images/icons/bookmark.png') }}" alt="">
+            <span>Saved</span>
+        </a>
+        <a class="left-aside-menu-element">
+            <div>
+                <twig:ux:icon name="bx:chevron-down" />
+            </div>
+            <span>See More</span>
+        </a>
+        <a href="#" class="left-aside-menu-element not-displayed">
+            <img src="{{ asset('images/icons/timetable.png') }}" alt="">
+            <span>Events</span>
+        </a>
+        <a href="#" class="left-aside-menu-element not-displayed">
+            <img src="{{ asset('images/icons/messenger.png') }}" alt="">
+            <span>Messages</span>
+        </a>
+        <a href="#" class="left-aside-menu-element not-displayed">
+            <img src="{{ asset('images/icons/atm-card.png') }}" alt="">
+            <span>Orders and Payments</span>
+        </a>
+        <a href="#" class="left-aside-menu-element not-displayed">
+            <img src="{{ asset('images/icons/facebook-page.png') }}" alt="">
+            <span>Pages</span>
+        </a>
+        <a href="#" class="left-aside-menu-element not-displayed">
+            <img src="{{ asset('images/icons/game.png') }}" alt="">
+            <span>Play Games</span>
+        </a>
+        <a class="left-aside-menu-element not-displayed">
+            <div>
+                <twig:ux:icon name="bx:chevron-up" />
+            </div>
+            <span>See Less</span>
+        </a>
+    </div>
+</aside>

@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Post Edit Historz{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('main') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('main') }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .icon-block {
+            border-radius: 10px;
+
+            &:hover {
+                background: var(--principal-background);
+            }
+        }
+
+        .post-block {
+            align-self: center;
+            justify-self: center;
+        }
+    </style>
+    {% include 'base/_main_header.html.twig' %}
+
+    <div class="update-history-block">
+        <h2>Edit History</h2>
+
+        {% include 'base/_flash_messages.html.twig' %}
+
+        <div class="update-history">
+            {% for modification in post.postModifications %}
+                <div class="modification">
+                    <div id="modification-date{{ modification.id }}" class="modification-date">{{ modification.createdAt|date('Y-m-d') }}</div>
+                    <div id="modification-content{{ modification.id }}" class="modification-content">
+                        <div class="profile">
+                            {% set imagePath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+                            <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
+                            <a href="#">{{ user.username }}</a>
+                        </div>
+                        <div id="fr-view{{ modification.id }}" class="fr-view">
+                            {{ modification.content|raw }}
+                        </div>
+                        <button id="view-all-button{{ modification.id }}" class="view-all button">View All</button>
+                        <button id="view-less-button{{ modification.id }}" class="view-less button">View Less</button>
+                    </div>
+                </div>
+
+                <script>
+                    const modificationContent{{ modification.id }} = document.querySelector('#fr-view{{ modification.id }}'),
+                        viewAllButton{{ modification.id }} = document.querySelector('#view-all-button{{ modification.id }}'),
+                        viewLessButton{{ modification.id }} = document.querySelector('#view-less-button{{ modification.id }}');
+
+                    let modificationContentHeight{{ modification.id }} = getComputedStyle(modificationContent{{ modification.id }}).height.replace('px', '');
+                    modificationContentHeight{{ modification.id }} = Number(modificationContentHeight{{ modification.id }});
+
+                    if (modificationContentHeight{{ modification.id }} <= 300) {
+                        viewAllButton{{ modification.id }}.style.display = 'none';
+                    } else {
+                        modificationContent{{ modification.id }}.style.maxHeight = '300px';
+                    }
+
+                    viewAllButton{{ modification.id }}.addEventListener('click', function () {
+                        modificationContent{{ modification.id }}.style.height = 'auto';
+                        modificationContent{{ modification.id }}.style.maxHeight = 'initial';
+                        this.style.display = 'none';
+                        viewLessButton{{ modification.id }}.style.display = 'block';
+                    });
+
+                    viewLessButton{{ modification.id }}.addEventListener('click', function () {
+                        modificationContent{{ modification.id }}.style.maxHeight = '300px';
+                        modificationContent{{ modification.id }}.style.height = 'initial';
+                        viewAllButton{{ modification.id }}.style.display = 'block';
+                        this.style.display = 'none';
+                    });
+                </script>
+            {% endfor %}
+
+            <div class="modification">
+                <div id="modification-date" class="modification-date">Actual Content</div>
+                <div id="modification-content" class="modification-content">
+                    <div class="profile">
+                        {% set imagePath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+                        <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
+                        <a href="#">{{ user.username }}</a>
+                    </div>
+                    <div id="fr-view" class="fr-view">
+                        {{ post.content|raw }}
+                    </div>
+                    <button id="view-all-button" class="view-all button">View All</button>
+                    <button id="view-less-button" class="view-less button">View Less</button>
+                </div>
+            </div>
+
+            <script>
+                const modificationContent = document.querySelector('#fr-view'),
+                    viewAllButton = document.querySelector('#view-all-button'),
+                    viewLessButton = document.querySelector('#view-less-button');
+
+                let modificationContentHeight = getComputedStyle(modificationContent).height.replace('px', '');
+                modificationContentHeight = Number(modificationContentHeight);
+
+                if (modificationContentHeight <= 300) {
+                    viewAllButton.style.display = 'none';
+                } else {
+                    modificationContent.style.maxHeight = '300px';
+                }
+
+                viewAllButton.addEventListener('click', function () {
+                    modificationContent.style.height = 'auto';
+                    modificationContent.style.maxHeight = 'initial';
+                    this.style.display = 'none';
+                    viewLessButton.style.display = 'block';
+                });
+
+                viewLessButton.addEventListener('click', function () {
+                    modificationContent.style.maxHeight = '300px';
+                    modificationContent.style.height = 'initial';
+                    viewAllButton.style.display = 'block';
+                    this.style.display = 'none';
+                });
+            </script>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

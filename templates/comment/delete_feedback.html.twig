@@ -1,0 +1,39 @@
+{% apply inline_css %}
+
+    <style>
+        p.main-content {
+            width: 100%;
+            text-align: center;
+        }
+
+        div {
+            width: 100%;
+            background: lightgrey;
+            padding: 5px;
+            border-radius: 10px;
+        }
+    </style>
+
+    <p class="main-content">
+        One of your comments violated our <a href="#">Community Rules</a> and hence was deleted by one of our Admins.
+    </p>
+
+    <div>
+        {{ comment.content|raw }}
+    </div>
+
+    <p class="main-content">
+        Please remember to conduct yourself normally in order to be able to use our website without problems.
+        Too many valid reports may lead to certain restrictions on your account!
+    </p>
+
+    <p class="main-content">
+        Thanks for your understanding.
+    </p>
+
+    <p class="main-content">
+        Cordially, your Administration Team.
+    </p>
+
+{% endapply %}
+

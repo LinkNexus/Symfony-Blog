@@ -1,0 +1,285 @@
+.comment {
+    display: flex;
+    margin-bottom: 20px;
+
+    & .hide-paragraph {
+        font-style: italic;
+    }
+
+    &>img {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    & .comment-content {
+        background: var(--principal-background);
+        padding: 10px;
+        border-radius: 10px;
+        color: var(--sixth-background);
+        width: fit-content;
+        min-width: 100%;
+
+        & .user-username {
+            all: unset;
+            font-weight: bolder;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 1px;
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+
+        & .fr-view {
+            & img {
+                height: auto;
+            }
+
+            & p:has(.tag-link) {
+                text-align: center;
+                width: 100%;
+                display: none;
+            }
+
+            .tag-link {
+                text-decoration: none;
+                color: var(--secondary-text-color);
+                font-style: italic;
+                align-self: center;
+            }
+        }
+    }
+
+    & .comment-actions {
+        display: flex;
+        font-size: 0.875rem;
+
+        & .comment-date {
+            margin-right: 10px;
+            cursor: pointer;
+            height: fit-content;
+            width: fit-content;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        & .comment-react{
+            font-weight: bold;
+            margin-right: 10px;
+            cursor: pointer;
+            height: fit-content;
+            width: fit-content;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        & .comment-reactions {
+            display: flex;
+
+            & .comment-likes-block, & .comment-dislikes-block {
+                display: flex;
+                margin-right: 5px;
+                align-items: center;
+                cursor: pointer;
+
+                & svg {
+                    height: 15px;
+                    aspect-ratio: 1;
+                    margin-left: 3px;
+                }
+            }
+
+            & .comment-likes-block svg {
+                color: var(--principal-color);
+            }
+
+            & .comment-dislikes-block svg {
+                color: red;
+            }
+        }
+    }
+
+    & .comment-menu-block {
+        align-self: center;
+        margin-left: 10px;
+
+        & .comment-menu-icon {
+            aspect-ratio: 1;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                background: var(--third-background);
+                cursor: pointer;
+            }
+        }
+
+        & .comment-menu {
+            padding: 10px;
+            background: var(--second-background);
+            border: 1px solid var(--third-background);
+            border-radius: 10px;
+            margin-top: 5px;
+            min-width: fit-content;
+            width: 30%;
+
+            & .comment-menu-action {
+                padding: 5px;
+                color: var(--sixth-background);
+                border-radius: 5px;
+                display: flex;
+                justify-content: space-between;
+
+                & svg {
+                    height: 20px;
+                    aspect-ratio: 1;
+                }
+
+                &.comment-menu-date {
+                    color: var(--secondary-text-color);
+                    font-style: italic;
+                }
+
+                &.comment-menu-reacts {
+                    display: none;
+                }
+
+                & .comment-menu-likes, & .comment-menu-dislikes {
+                    display: flex;
+
+                    & svg {
+                        margin-right: 5px;
+                    }
+                }
+
+                & .comment-menu-likes svg {
+                    color: var(--principal-color);
+                    margin-right: 5px;
+                }
+
+                & .comment-menu-dislikes svg {
+                    color: red;
+                    margin-right: 5px;
+                }
+
+                &:hover {
+                    background: var(--third-background);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.comments {
+    overflow-x: auto;
+
+    & .comment-bar {
+        display: none;
+    }
+
+    & .comment-replies-link {
+        & a {
+            color: var(--principal-color);
+        }
+        margin-left: 50px;
+        margin-bottom: 20px;
+    }
+}
+
+& .primary-reply-container {
+    margin-left: 50px;
+    min-width: calc(100% - 50px);
+    width: fit-content;
+}
+
+& .secondary-reply-container {
+    margin-left: 100px;
+    min-width: calc(100% - 100px);
+    width: fit-content;
+}
+
+& .primary-reply-container, & .secondary-reply-container {
+    & .comment>img {
+        height: 40px;
+        width: 40px;
+    }
+
+    & .comment-bar {
+        display: none;
+    }
+}
+
+.comment-replies-section {
+    overflow-x: hidden;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    & h1 {
+        text-align: center;
+        padding: 10px;
+        border-bottom: 1px solid #dadde1;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    & .post-link {
+        width: 100%;
+        text-align: center;
+
+        & a {
+            color: var(--principal-color);
+            display: flex;
+
+            & svg {
+                width: 20px;
+                aspect-ratio: 1;
+                margin-right: 10px;
+            }
+        }
+    }
+
+    & .comment {
+        margin-top: 20px;
+        margin-right: 10px;
+
+        &>img {
+            width: 50px;
+            height: 50px;
+        }
+
+    }
+
+    & .comment-bar {
+        width: 100%;
+        background: var(--second-background);
+        position: sticky;
+        bottom: 0;
+    }
+}
+
+.comment-menu-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 5;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Reset your password{% endblock %}
+
+{% form_theme resetForm 'bootstrap_5_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% block body %}
+    <div class="reset-password-section">
+        <div class="website-name">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+            <h1 id="site-name">TheNexus</h1>
+        </div>
+        <div class="reset-password-form-container">
+            {{ form_start(resetForm) }}
+            <h1>Change your Password</h1>
+            <div>
+                {{ form_widget(resetForm.plainPassword.first) }}
+                {{ form_errors(resetForm.plainPassword.first) }}
+            </div>
+            <div>
+                {{ form_widget(resetForm.plainPassword.second) }}
+                {{ form_errors(resetForm.plainPassword.second) }}
+            </div>
+            <button class="button">Reset password</button>
+            {{ form_end(resetForm) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+    <style>
+        body {
+            justify-content: center;
+        }
+    </style>
+
+    <div class="register-section">
+        <div class="website-name">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+            <h1 id="site-name">TheNexus</h1>
+        </div>
+
+        <div class="register-form-container" >
+            <div class="register-title">
+                <h2>Create an Account</h2>
+                <p>It is fast and simple</p>
+            </div>
+
+            {{ component('RegistrationForm', {
+                form: registrationForm
+            }) }}
+
+            <a href="{{ path('app_login') }}" class="button">Sign In</a>
+        </div>
+    </div>
+{% endblock %}

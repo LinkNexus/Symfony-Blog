@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Process Login Link{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('external') }}
+{% endblock %}
+
+{% block body %}
+    <div class="magic-link-section">
+        <div class="website-name">
+            <img src="{{ asset('images/logo.png') }}" alt="logo">
+            <h1 id="site-name">TheNexus</h1>
+        </div>
+
+        <div class="magic-link-form-container">
+            <!-- for instance, use a form with hidden fields to
+                 create the POST request --->
+            <form class="magic-link-form" action="{{ path('app_login_check') }}" method="POST">
+                <h2>Hi! You are about to sign in to Nexus</h2>
+                <input type="hidden" name="expires" value="{{ expires }}">
+                <input type="hidden" name="user" value="{{ user }}">
+                <input type="hidden" name="hash" value="{{ hash }}">
+
+                <button class="button" type="submit">Continue</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
