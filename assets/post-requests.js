@@ -18,4 +18,17 @@ export default class PostRequests {
                 })
         }
     }
+
+    static report(post) {
+        if (confirm("Are you sure you want to report this comment?")) {
+            return fetch(`/post/${post}/report`, { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => {
+                    console.log("Error: " + error);
+                })
+        }
+    }
 }

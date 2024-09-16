@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
@@ -284,16 +285,22 @@ class CommentController extends AbstractController
 
         if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
             $templatedEmail = (new TemplatedEmail())
-                ->htmlTemplate("comment/delete_feedback.html.twig")
+                ->htmlTemplate("mail/delete_feedback.html.twig")
                 ->to($comment->getOwner()->getEmail())
                 ->from(new Address($this->getUser()->getEmail(), $this->getUser()->getUserIdentifier()))
                 ->subject("Reported Comment")
                 ->context([
-                    "comment" => $comment
+                    "entity" => $comment,
+                    "entity_name" => "comment"
                 ]);
 
             $templatedEmail->getHeaders()->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
-            $mailer->send($templatedEmail);
+
+            try {
+                $mailer->send($templatedEmail);
+            } catch (TransportExceptionInterface $e) {
+                return new JsonResponse(["message" => $e->getMessage()], 500);
+            }
         }
 
         return new JsonResponse(['message' => 'Comment deleted!', "userId" => $comment->getOwner()->getId()]);
@@ -376,17 +383,23 @@ class CommentController extends AbstractController
         }
 
         $templatedEmail = (new TemplatedEmail())
-            ->htmlTemplate("comment/report_email.html.twig")
+            ->htmlTemplate("mail/report_email.html.twig")
             ->to(...$adminsMailAddresses)
             ->from(new Address("moderators@nexus.tech", "Nexus Moderators"))
             ->subject("Reported Comment")
             ->context([
-                "comment" => $comment,
-                "user" => $this->getUser()
+                "entity" => $comment,
+                "user" => $this->getUser(),
+                "entity_name" => "comment"
             ]);
 
         $templatedEmail->getHeaders()->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
-        $mailer->send($templatedEmail);
+
+        try {
+            $mailer->send($templatedEmail);
+        } catch (TransportExceptionInterface $e) {
+            return new JsonResponse(["message" => $e->getMessage()], 500);
+        }
 
         return new JsonResponse(["message" => "The comment has been successfully reported. An admin will review the report and take necessary measures"]);
     }

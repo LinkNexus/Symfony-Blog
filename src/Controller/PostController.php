@@ -12,12 +12,16 @@ use App\Form\PostType;
 use App\Service\FileUploader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -222,7 +226,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'delete')]
-    public function delete(?Post $post): Response
+    public function delete(?Post $post, MailerInterface $mailer): Response
     {
         $user = $this->getUser();
 
@@ -271,6 +275,26 @@ class PostController extends AbstractController
 
         $this->entityManager->remove($post);
         $this->entityManager->flush();
+
+        if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            $templatedEmail = (new TemplatedEmail())
+                ->htmlTemplate("mail/delete_feedback.html.twig")
+                ->to($post->getOwner()->getEmail())
+                ->from(new Address($this->getUser()->getEmail(), $this->getUser()->getUserIdentifier()))
+                ->subject("Reported Comment")
+                ->context([
+                    "entity" => $post,
+                    "entity_name" => "comment"
+                ]);
+
+            $templatedEmail->getHeaders()->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
+
+            try {
+                $mailer->send($templatedEmail);
+            } catch (TransportExceptionInterface $e) {
+                return new JsonResponse(["message" => $e->getMessage()], 500);
+            }
+        }
 
         return new JsonResponse([
             'message' => 'The post was successfully deleted!',
@@ -332,6 +356,43 @@ class PostController extends AbstractController
         }
 
         return new JsonResponse($response);
+    }
+
+    #[Route(path: "/{id}/report", name: "report", methods: ["POST"])]
+    public function report(?Post $post, MailerInterface $mailer): JsonResponse
+    {
+        if (!$post) {
+            return new JsonResponse(["message" => "The requested post is not found"], 404);
+        }
+
+        $adminsMailAddresses = [];
+        $users = $this->entityManager->getRepository(User::class)->findAll();
+        foreach ($users as $user) {
+            if (in_array("ROLE_ADMIN", $user->getRoles())) {
+                $adminsMailAddresses[] = $user->getEmail();
+            }
+        }
+
+        $templatedEmail = (new TemplatedEmail())
+            ->htmlTemplate("mail/report_email.html.twig")
+            ->to(...$adminsMailAddresses)
+            ->from(new Address("moderators@nexus.tech", "Nexus Moderators"))
+            ->subject("Reported Comment")
+            ->context([
+                "entity" => $post,
+                "user" => $this->getUser(),
+                "entity_name" => "post"
+            ]);
+
+        $templatedEmail->getHeaders()->addTextHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
+
+        try {
+            $mailer->send($templatedEmail);
+        } catch (TransportExceptionInterface $e) {
+            return new JsonResponse(["message" => $e->getMessage()], 500);
+        }
+
+        return new JsonResponse(["message" => "The comment has been successfully reported. An admin will review the report and take necessary measures"]);
     }
 
     /**

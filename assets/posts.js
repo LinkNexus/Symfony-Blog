@@ -86,7 +86,10 @@ const postMenus = document.querySelectorAll(".post-menu"),
     oldestCommentsFilter = document.querySelector(".oldest-comments"),
     moreReactionsFilter = document.querySelector(".more-reactions"),
     lessReactionsFilter = document.querySelector(".less-reactions"),
-    createCommentBar = document.getElementById("create-comment-bar");
+    createCommentBar = document.getElementById("create-comment-bar"),
+    reportPostButtons = document.querySelectorAll(".report-post"),
+    snoozeUserButtons = document.querySelectorAll(".snooze"),
+    blockUserButtons = document.querySelectorAll(".post-menu-action.block");
 
 const url = new URL(location.href);
 const queryParams = new URLSearchParams(location.search),
@@ -206,8 +209,6 @@ for (let i = 0; i < postMenus.length; i++) {
                 this.style.color = 'inherit';
             } else {
                 allDislikeNumbers[i] += 1;
-                allDislikes[i].innerText = allDislikeNumbers[i];
-
                 this.style.color = 'red';
                 likeButtons[i].style.color = 'inherit';
             }
@@ -233,6 +234,10 @@ for (let i = 0; i < postMenus.length; i++) {
             })
             .catch(err => console.log("Couldn't share the post"));
     })
+
+    reportPostButtons[i].addEventListener("click", async function () {
+        await PostRequests.report(postMenus[i].getAttribute("data-post-id"));
+    });
 
     selectedFilters[i].addEventListener("click", function () {
         filtersContainers[i].style.display = getComputedStyle(filtersContainers[i]).display === "flex" ? "none" : "flex";
