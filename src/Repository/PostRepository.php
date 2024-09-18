@@ -50,19 +50,37 @@ class PostRepository extends ServiceEntityRepository
         $posts = $this->findAll();
         shuffle($posts);
 
+        /**
+         * @var ArrayCollection<Post> $collection
+         */
         $collection = new ArrayCollection($posts);
         foreach ($posts as $post) {
-            if (
-                (
-                    ($post->getAudienceType() === 'friends_except' && $post->getPostAudience()->getUsers()->contains($user)) ||
-                    ($post->getAudienceType() === 'specific_friends' &&
-                        (!$post->getPostAudience()->getUsers()->contains($user) && $user !== $post->getOwner())
-                    ) ||
-                    ($post->getAudienceType() === 'only_me' && $post->getOwner() !== $user) ||
-                    ($user->getBlockedUsers()->contains($post->getOwner()))
-                ) && !in_array("ROLE_ADMIN", $user->getRoles())
-            ) {
-                $collection->removeElement($post);
+            if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+                if (($post->getAudienceType() === 'friends_except' && $post->getPostAudience()->getUsers()->contains($user))) {
+                    $collection->removeElement($post);
+                }
+
+                if (($post->getAudienceType() === 'specific_friends' &&
+                    (!$post->getPostAudience()->getUsers()->contains($user) && $user !== $post->getOwner()))) {
+                    $collection->removeElement($post);
+                }
+
+                if (($post->getAudienceType() === 'only_me' && $post->getOwner() !== $user)) {
+                    $collection->removeElement($post);
+                }
+
+
+                foreach ($post->getOwner()->getBlocks() as $block) {
+                    if ($block->getBlockedUser() === $user) {
+                        $collection->removeElement($post);
+                    }
+                }
+
+                foreach ($user->getSnoozes() as $snoozedUser) {
+                    if ($snoozedUser->getSnoozedUser() === $post->getOwner()) {
+                        $collection->removeElement($post);
+                    }
+                }
             }
         }
 

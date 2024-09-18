@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from "dayjs/plugin/utc";
 import CommentRequests from "./comment-requests"
+import Utilities from "./utilities";
 
 // Load your languages
 import 'froala-editor/js/languages/en_gb.js';
@@ -36,7 +37,7 @@ dayjs.extend(relativeTime);
 
 // Get the infos of the current connected user
 //const currentUser = await getCurrentUser();
-const currentUser = await CommentRequests.getCurrentUser();
+const currentUser = await Utilities.getCurrentUser();
 
 const commentFormButtons = document.querySelectorAll(".comment-button"),
     commentDates = document.querySelectorAll(".comment-date"),

@@ -1,4 +1,5 @@
 import UserRequests from "./user-requests";
+import Utilities from "./utilities";
 
 export default class PostRequests {
     static delete(post, currentUser) {
@@ -10,7 +11,11 @@ export default class PostRequests {
                 .then(async data => {
                     if (currentUser.roles.includes("ROLE_ADMIN") && data.userId)
                         await UserRequests.warn(data.userId);
-                    alert(data.message);
+
+                    Utilities.displayMessage(data.message, "success");
+                    window.scrollTo(0,0);
+                    await Utilities.delay(2000);
+
                     location.href = "/";
                 })
                 .catch((error) => {
@@ -24,7 +29,8 @@ export default class PostRequests {
             return fetch(`/post/${post}/report`, { method: "POST" })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message);
+                    Utilities.displayMessage(data.message, "success");
+                    window.scrollTo(0,0);
                 })
                 .catch(error => {
                     console.log("Error: " + error);

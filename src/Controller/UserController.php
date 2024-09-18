@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Block;
+use App\Entity\Snooze;
 use App\Entity\User;
 use App\Entity\Warning;
 use Doctrine\ORM\EntityManagerInterface;
@@ -87,5 +88,19 @@ class UserController extends AbstractController
         $this->entityManager->remove($block);
         $this->entityManager->flush();
         return new JsonResponse(["message" => "The user was successfully unblocked!"]);
+    }
+
+    #[Route(path: "/{id}/snooze", name: "snooze", methods: ["POST"])]
+    public function snooze(?User $user): JsonResponse
+    {
+        if (!$user) {
+            return new JsonResponse(["message" => "Such a user does not exists here"], 404);
+        }
+
+        $snooze = (new Snooze())->setSnoozedUser($user)->setSnoozingUser($this->getUser());
+
+        $this->entityManager->persist($snooze);
+        $this->entityManager->flush();
+        return new JsonResponse(["message" => "The user was successfully snoozed!"]);
     }
 }

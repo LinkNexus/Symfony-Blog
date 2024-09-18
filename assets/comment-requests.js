@@ -1,17 +1,7 @@
 import UserRequests from "./user-requests";
+import Utilities from "./utilities";
 
 export default class CommentRequests {
-    static getCurrentUser() {
-        const url = "/current-user";
-
-        return fetch(url)
-            .then(response => response.json())
-            .then(data => data)
-            .catch((error) => {
-                console.error('Error:', error);
-                return false;
-            });
-    }
 
     static react(comment, reaction = "like") {
         const url = `/comment/${comment}/react`;
@@ -57,7 +47,7 @@ export default class CommentRequests {
         }
 
         if (!editor.html || editor.html.get(true).trim().length <= 0 ) {
-            alert("You cannot submit an empty content!");
+            Utilities.displayMessage("You cannot submit an empty content!", "danger");
             return;
         }
 
@@ -78,7 +68,8 @@ export default class CommentRequests {
                         location.href = `/post/${data.postId}/#comment-${data.id}`; //location.href.split("#")[0] + `#comment-${data.id}`
                     }
                 } else {
-                    alert(data.message);
+                    Utilities.displayMessage(data.message, "danger");
+                    await Utilities.delay(2000);
                     location.reload();
                 }
             })
@@ -96,7 +87,9 @@ export default class CommentRequests {
                 .then(async data => {
                     if (currentUser.roles.includes("ROLE_ADMIN") && data.userId)
                         await UserRequests.warn(data.userId);
-                    alert(data.message);
+
+                    Utilities.displayMessage(data.message, "success");
+                    await Utilities.delay(2000);
                     // Check if the deleted comment is the principal one and if so,
                     // redirect the user to the initial post upon deleting
                     if (post)
@@ -146,7 +139,7 @@ export default class CommentRequests {
             return fetch(`/comment/${comment}/report`, { method: "POST" })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message);
+                    Utilities.displayMessage(data.message, "success");
                 })
                 .catch(error => {
                     console.log("Error: " + error);
