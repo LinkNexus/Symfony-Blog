@@ -7,6 +7,8 @@ import 'froala-editor/css/froala_style.min.css';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from "dayjs/plugin/utc";
+import UserRequests from "./user-requests";
+import Utilities from "./utilities";
 
 // Load your languages
 import 'froala-editor/js/languages/en_gb.js';
@@ -35,7 +37,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
 // Get the infos of the current connected user
-const currentUser = await CommentRequests.getCurrentUser();
+const currentUser = await Utilities.getCurrentUser();
 
 function reactToPost(id, reaction = "like") {
     const url = "/post/" + id + "/react";
@@ -237,6 +239,10 @@ for (let i = 0; i < postMenus.length; i++) {
 
     reportPostButtons[i].addEventListener("click", async function () {
         await PostRequests.report(postMenus[i].getAttribute("data-post-id"));
+    });
+
+    snoozeUserButtons[i].addEventListener("click", async function () {
+        await UserRequests.snooze(postMenus[i].getAttribute("data-user-id"));
     });
 
     selectedFilters[i].addEventListener("click", function () {

@@ -134,6 +134,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
     #[ORM\OneToMany(targetEntity: Block::class, mappedBy: 'blockingUser')]
     private Collection $blocks;
 
+    /**
+     * @var Collection<int, Snooze>
+     */
+    #[ORM\OneToMany(targetEntity: Snooze::class, mappedBy: 'snoozedUser')]
+    private Collection $snoozedUsers;
+
+    /**
+     * @var Collection<int, Snooze>
+     */
+    #[ORM\OneToMany(targetEntity: Snooze::class, mappedBy: 'snoozingUser')]
+    private Collection $snoozes;
+
     public function __construct()
     {
         $this->joinedAt = new \DateTimeImmutable();
@@ -147,6 +159,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
         $this->warnings = new ArrayCollection();
         $this->blockedUsers = new ArrayCollection();
         $this->blocks = new ArrayCollection();
+        $this->snoozedUsers = new ArrayCollection();
+        $this->snoozes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -615,6 +629,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
             // set the owning side to null (unless already changed)
             if ($block->getBlockingUser() === $this) {
                 $block->setBlockingUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Snooze>
+     */
+    public function getSnoozedUsers(): Collection
+    {
+        return $this->snoozedUsers;
+    }
+
+    public function addSnoozedUser(Snooze $snoozedUser): static
+    {
+        if (!$this->snoozedUsers->contains($snoozedUser)) {
+            $this->snoozedUsers->add($snoozedUser);
+            $snoozedUser->setSnoozedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSnoozedUser(Snooze $snoozedUser): static
+    {
+        if ($this->snoozedUsers->removeElement($snoozedUser)) {
+            // set the owning side to null (unless already changed)
+            if ($snoozedUser->getSnoozedUser() === $this) {
+                $snoozedUser->setSnoozedUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Snooze>
+     */
+    public function getSnoozes(): Collection
+    {
+        return $this->snoozes;
+    }
+
+    public function addSnooze(Snooze $snooze): static
+    {
+        if (!$this->snoozes->contains($snooze)) {
+            $this->snoozes->add($snooze);
+            $snooze->setSnoozingUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSnooze(Snooze $snooze): static
+    {
+        if ($this->snoozes->removeElement($snooze)) {
+            // set the owning side to null (unless already changed)
+            if ($snooze->getSnoozingUser() === $this) {
+                $snooze->setSnoozingUser(null);
             }
         }
 

@@ -39,14 +39,40 @@ class CommentController extends AbstractController
     #[Route('/{id}/replies', name: 'replies', methods: ['GET', "POST"])]
     public function replies(?Comment $comment): Response
     {
+        $user = $this->getUser();
+
         if (!$comment) {
             $this->addFlash("danger", "The requested Comment is not found");
             return $this->redirectToRoute("app_home");
         }
 
-        foreach ($comment->getOwner()->getBlockedUsers() as $block) {
-            if ($block->getBlockedUser() === $this->getUser()) {
-                return $this->redirectToRoute("app_home");
+        $post = $comment->getPost();
+
+        if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+            foreach ($post->getOwner()->getBlocks() as $block) {
+                if ($block->getBlockedUser() === $user) {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+
+            foreach ($comment->getOwner()->getBlocks() as $block) {
+                if ($block->getBlockedUser() === $user) {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+
+            foreach ($user->getSnoozes() as $snooze) {
+                if ($snooze->getSnoozedUser() === $post->getOwner()) {
+                    $this->addFlash("info", "You snoozed this user, hence can not view his posts");
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+
+            foreach ($user->getSnoozes() as $snooze) {
+                if ($snooze->getSnoozedUser() === $comment->getOwner()) {
+                    $this->addFlash("info", "You snoozed the post's author, hence can not view his posts and the associated comments");
+                    return $this->redirectToRoute('app_home');
+                }
             }
         }
 
@@ -142,31 +168,6 @@ class CommentController extends AbstractController
             "respondedComment" => $comment->getRespondedComment()?->getId(),
             "postId" => $comment->getPost()->getId()
         ]);
-    }
-
-    #[Route('/fetch', name: 'fetch')]
-    public function fetchComments(Request $request): JsonResponse
-    {
-        $jsonData = $request->getContent();
-        $data = json_decode($jsonData, true);
-        $allComments = [];
-
-        foreach ($data["post_ids"] as $postId) {
-            $post = $this->entityManager->getRepository(Post::class)->find($postId);
-            $comments = $this->entityManager->getRepository(Comment::class)->findBy(['post' => $post], ["createdAt" => "DESC"]);
-            $allComments[] = $comments;
-        }
-
-        /* $comments = match ($condition) {
-            "newest" => $this->entityManager->getRepository(Comment::class)
-                ->findBy(
-                    ['post' => $post],
-                    ['createdAt' => 'DESC']
-                ),
-            default => $this->entityManager->getRepository(Comment::class)->findBy(['post' => $post]),
-        }; */
-
-        return new JsonResponse($allComments);
     }
 
     #[Route('/{id}/react', name: 'react')]
@@ -374,6 +375,10 @@ class CommentController extends AbstractController
             return new JsonResponse(["message" => "The requested comment is not found"], 404);
         }
 
+        if ($comment->getOwner() === $this->getUser()) {
+            return new JsonResponse(["message" => "You can not report your own comment"], 403);
+        }
+
         $adminsMailAddresses = [];
         $users = $this->entityManager->getRepository(User::class)->findAll();
         foreach ($users as $user) {
@@ -411,9 +416,7 @@ class CommentController extends AbstractController
     } */
 
     #[Route('/upload/images', methods: ['POST'])]
-    public function uploadImages(
-        Request $request,
-    ): Response
+    public function uploadImages(Request $request): Response
     {
         $fileUploadResult = $this->fileUploader->moveUploadedFile($request->files->get('file'), 'comment', 'images');
 

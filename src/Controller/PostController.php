@@ -77,16 +77,43 @@ class PostController extends AbstractController
         #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/^[\w-]+$/'])] ?string $filter
     ): Response
     {
+        $user = $this->getUser();
+
         if (!$post) {
             $this->addFlash('danger', 'The Requested Post is not found');
             return $this->redirectToRoute('app_home');
         }
 
-        foreach ($post->getOwner()->getBlockedUsers() as $block) {
-            if ($block->getBlockedUser() === $this->getUser()) {
+        if (!in_array("ROLE_ADMIN", $user->getRoles())) {
+
+            if (($post->getAudienceType() === 'friends_except' && $post->getPostAudience()->getUsers()->contains($user))) {
                 return $this->redirectToRoute('app_home');
             }
+
+            if (($post->getAudienceType() === 'specific_friends' &&
+                (!$post->getPostAudience()->getUsers()->contains($user) && $user !== $post->getOwner()))) {
+                return $this->redirectToRoute('app_home');
+            }
+
+            if (($post->getAudienceType() === 'only_me' && $post->getOwner() !== $user)) {
+                return $this->redirectToRoute('app_home');
+            }
+
+            foreach ($post->getOwner()->getBlocks() as $block) {
+                if ($block->getBlockedUser() === $user) {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+
+            foreach ($user->getSnoozes() as $snooze) {
+                if ($snooze->getSnoozedUser() === $post->getOwner()) {
+                    $this->addFlash("info", "You snoozed this user, hence can not view his posts");
+                    return $this->redirectToRoute('app_home');
+                }
+            }
         }
+
+        // dd(...$this->getUser()->getSnoozedUsers(), ...$post->getOwner()->getBlockedUsers());
 
         $allReplies = [];
         $comments = match ($filter) {
@@ -150,7 +177,7 @@ class PostController extends AbstractController
 
         foreach ($comments as $comment) {
             foreach ($comment->getOwner()->getBlockedUsers() as $block) {
-                if ($block->getBlockedUser() === $this->getUser()) {
+                if ($block->getBlockedUser() === $user) {
                     $comments->removeElement($comment);
                     $allReplies->remove(strval($comment->getId()));
                 }
@@ -160,7 +187,7 @@ class PostController extends AbstractController
         foreach ($allReplies as $replies) {
             foreach ($replies as $reply) {
                 foreach ($reply["comment"]->getOwner()->getBlockedUsers() as $block) {
-                    if ($block->getBlockedUser() === $this->getUser()) {
+                    if ($block->getBlockedUser() === $user) {
                         $replies->removeElement($reply);
                     }
                 }
@@ -171,7 +198,7 @@ class PostController extends AbstractController
 
         return $this->render('post/show.html.twig', [
             'posts' => [$post],
-            'user' => $this->getUser(),
+            'user' => $user,
             "allReplies" => $allReplies,
             "comments" => $comments,
             "onHomePage" => false
@@ -365,6 +392,10 @@ class PostController extends AbstractController
             return new JsonResponse(["message" => "The requested post is not found"], 404);
         }
 
+        if ($post->getOwner() === $this->getUser()) {
+            return new JsonResponse(["message" => "You cannot report your own post"], 403);
+        }
+
         $adminsMailAddresses = [];
         $users = $this->entityManager->getRepository(User::class)->findAll();
         foreach ($users as $user) {
@@ -414,9 +445,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/upload/images', methods: ['POST'])]
-    public function uploadImages(
-        Request $request,
-    ): Response
+    public function uploadImages(Request $request): Response
     {
         $fileUploadResult = $this->fileUploader->moveUploadedFile($request->files->get('file'), 'post', 'images');
 
