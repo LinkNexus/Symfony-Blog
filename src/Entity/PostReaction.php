@@ -6,6 +6,7 @@ use App\Repository\PostReactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostReactionRepository::class)]
+#[ORM\Table(name: 'symfony-blog-post-reaction')]
 class PostReaction
 {
     #[ORM\Id]

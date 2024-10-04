@@ -6,6 +6,7 @@ use App\Repository\CommentReactionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentReactionRepository::class)]
+#[ORM\Table(name: 'symfony-blog-comment-reaction')]
 class CommentReaction implements \JsonSerializable
 {
     #[ORM\Id]
