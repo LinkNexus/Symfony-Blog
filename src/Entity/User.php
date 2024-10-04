@@ -146,6 +146,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
     #[ORM\OneToMany(targetEntity: Snooze::class, mappedBy: 'snoozingUser')]
     private Collection $snoozes;
 
+    /**
+     * @var Collection<int, HiddenPost>
+     */
+    #[ORM\OneToMany(targetEntity: HiddenPost::class, mappedBy: 'user')]
+    private Collection $hiddenPosts;
+
     public function __construct()
     {
         $this->joinedAt = new \DateTimeImmutable();
@@ -161,6 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
         $this->blocks = new ArrayCollection();
         $this->snoozedUsers = new ArrayCollection();
         $this->snoozes = new ArrayCollection();
+        $this->hiddenPosts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -689,6 +696,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
             // set the owning side to null (unless already changed)
             if ($snooze->getSnoozingUser() === $this) {
                 $snooze->setSnoozingUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HiddenPost>
+     */
+    public function getHiddenPosts(): Collection
+    {
+        return $this->hiddenPosts;
+    }
+
+    public function addHiddenPost(HiddenPost $hiddenPost): static
+    {
+        if (!$this->hiddenPosts->contains($hiddenPost)) {
+            $this->hiddenPosts->add($hiddenPost);
+            $hiddenPost->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHiddenPost(HiddenPost $hiddenPost): static
+    {
+        if ($this->hiddenPosts->removeElement($hiddenPost)) {
+            // set the owning side to null (unless already changed)
+            if ($hiddenPost->getUser() === $this) {
+                $hiddenPost->setUser(null);
             }
         }
 

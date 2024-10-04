@@ -1,0 +1,103 @@
+<div class="upload-posts-section">
+    <div>
+        {% set imagePath = 'images/' ~ user.gender ~ '_icon.jpg' %}
+        <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
+
+        <div class="fake-upload-post-input form-control" contenteditable="true">
+            What's on your mind, {{ user.username }}?
+        </div>
+    </div>
+    <div class="upload-post-actions">
+        <a href="#" class="upload-post-action">
+            <img src="{{ asset('images/icons/live.png') }}" alt="">
+            <span>Live Video</span>
+        </a>
+        <a href="#" class="upload-post-action">
+            <img src="{{ asset('images/icons/photos.png') }}" alt="">
+            <span>Photos/videos</span>
+        </a>
+        <a href="#" class="upload-post-action">
+            <img src="{{ asset('images/icons/code.png') }}" alt="">
+            <span>Code</span>
+        </a>
+    </div>
+</div>
+
+<style>
+    .upload-posts-section {
+        width: 90%;
+        background: var(--second-background);
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &>div:nth-child(1) {
+            border-bottom: 1px solid #dadde1;
+            margin-bottom: 10px;
+            display: flex;
+            width: 100%;
+            padding: 5px 10px 10px;
+            align-items: center;
+
+            & img {
+                width: 50px;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            & .fake-upload-post-input {
+                min-height: 40px;
+                border-radius: 40px;
+                background: var(--principal-background);
+                font-size: 1rem;
+                padding-left: 15px;
+                padding-right: 15px;
+                box-sizing: border-box;
+                cursor: pointer;
+
+                &:hover {
+                    background: var(--third-background);
+                }
+            }
+        }
+
+        & .upload-post-actions {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            justify-content: space-between;
+
+            & .upload-post-action {
+                all: unset;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                outline: none;
+                transition: 0.2s all;
+                width: 30%;
+                padding: 5px;
+                border-radius: 5px;
+
+                &:active {
+                    transform: scale(0.98);
+                    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    background: var(--fifth-background);
+                }
+
+                & img {
+                    height: 35px;
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+</style>

@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
+        "easycorp/easyadmin-bundle": "^4.12",
         "knplabs/knp-time-bundle": "^2.4",
         "league/html-to-markdown": "^5.1",
         "leapt/froala-editor-bundle": "^1.7",
@@ -57,7 +58,8 @@
         "twig/cssinliner-extra": "^3.10",
         "twig/extra-bundle": "^3.10",
         "twig/inky-extra": "^3.10",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^2.4"
     },
     "config": {
         "allow-plugins": {

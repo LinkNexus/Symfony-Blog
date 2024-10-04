@@ -37,4 +37,30 @@ export default class PostRequests {
                 })
         }
     }
+
+    static hide(post) {
+        if (confirm("Do you want to hide this post?")) {
+            return fetch(`/post/${post}/hide`, { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    return true
+                })
+                .catch(error => {
+                    console.log("Error: " + error);
+                    return false;
+                })
+        }
+    }
+
+    static show(post) {
+        return fetch(`/post/${post}/display`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                return data?.content;
+            })
+            .catch(error => {
+                console.log("Error: " + error);
+                return false;
+            })
+    }
 }

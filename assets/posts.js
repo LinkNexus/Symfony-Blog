@@ -65,6 +65,7 @@ function reactToPost(id, reaction = "like") {
 
 // Definition of the necessary variables of the HTML Elements
 const postMenus = document.querySelectorAll(".post-menu"),
+    postsContents = document.querySelectorAll(".post-block .fr-view"),
     postMenuBlocks = document.querySelectorAll(".post-menu-block"),
     postMenuButtons = document.querySelectorAll(".post-menu-button"),
     seeHistoryButtons = document.querySelectorAll(".see-history"),
@@ -78,8 +79,6 @@ const postMenus = document.querySelectorAll(".post-menu"),
     selectedFilters = document.querySelectorAll(".selected-filter"),
     filtersContainers = document.querySelectorAll(".filters"),
     allFilters = document.querySelectorAll(".filter"),
-    commentInputs = document.querySelectorAll(".comment-input"),
-    commentFormButtons = document.querySelectorAll('.comment-bar form svg'),
     storiesSection = document.querySelector(".stories-section"),
     postReactsNumbers = document.querySelectorAll(".post-reacts-number"),
     postReactionsContainerBlocks = document.querySelectorAll(".post-reactions-container-block"),
@@ -91,7 +90,16 @@ const postMenus = document.querySelectorAll(".post-menu"),
     createCommentBar = document.getElementById("create-comment-bar"),
     reportPostButtons = document.querySelectorAll(".report-post"),
     snoozeUserButtons = document.querySelectorAll(".snooze"),
-    blockUserButtons = document.querySelectorAll(".post-menu-action.block");
+    blockUserButtons = document.querySelectorAll(".post-menu-action.block"),
+    unBlockUserButtons = document.querySelectorAll(".post-menu-action.unblock"),
+    hidePostButtons = document.querySelectorAll(".hide-post"),
+    showPostButtons = document.querySelectorAll(".show-post"),
+    commentsBlocks = document.querySelectorAll(".comments"),
+    iframeCodeButtons = document.querySelectorAll(".iframe-code-button"),
+    iframeInputs = document.querySelectorAll(".iframe-input"),
+    iframeContainerCloseButtons = document.querySelectorAll(".iframe-container-close"),
+    iframeContainerBlocks = document.querySelectorAll(".iframe-container-block"),
+    embedPostButtons = document.querySelectorAll(".embed-post");
 
 const url = new URL(location.href);
 const queryParams = new URLSearchParams(location.search),
@@ -101,6 +109,12 @@ const queryParams = new URLSearchParams(location.search),
 if (storiesSection) {
     for (const selectedFilter of selectedFilters) {
         selectedFilter.style.display = "none";
+    }
+} else {
+    // Setting the title of the page to the title of the post content
+    const title = Utilities.getPostTitle();
+    if (title) {
+        document.title = `Nexus | ${title}`;
     }
 }
 
@@ -190,7 +204,7 @@ for (let i = 0; i < postMenus.length; i++) {
                 dislikeButtons[i].style.color = 'inherit';
             }
         }
-    })
+    });
 
     dislikeButtons[i].addEventListener('click', async function (evt) {
         evt.preventDefault();
@@ -215,7 +229,7 @@ for (let i = 0; i < postMenus.length; i++) {
                 likeButtons[i].style.color = 'inherit';
             }
         }
-    })
+    });
 
     shareButtons[i].addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -235,7 +249,7 @@ for (let i = 0; i < postMenus.length; i++) {
                 alert("Successful shared article")
             })
             .catch(err => console.log("Couldn't share the post"));
-    })
+    });
 
     reportPostButtons[i].addEventListener("click", async function () {
         await PostRequests.report(postMenus[i].getAttribute("data-post-id"));
@@ -244,6 +258,55 @@ for (let i = 0; i < postMenus.length; i++) {
     snoozeUserButtons[i].addEventListener("click", async function () {
         await UserRequests.snooze(postMenus[i].getAttribute("data-user-id"));
     });
+
+    blockUserButtons[i].addEventListener("click", async function () {
+        await UserRequests.block(postMenus[i].getAttribute("data-user-id"));
+    });
+
+    unBlockUserButtons[i].addEventListener("click", async function () {
+        await UserRequests.unblock(postMenus[i].getAttribute("data-user-id"));
+    });
+
+    hidePostButtons[i].addEventListener("click", async function () {
+        let result = await PostRequests.hide(postMenus[i].getAttribute("data-post-id"));
+        if (result) {
+            postsContents[i].innerHTML = "<p>This post has been hidden</p>";
+        }
+
+        showPostButtons[i].style.display = "flex";
+        this.style.display = "none";
+        commentsBlocks[i].style.display = "none";
+    });
+
+    showPostButtons[i].addEventListener("click", async function () {
+        let result = await PostRequests.show(postMenus[i].getAttribute("data-post-id"));
+        if (result) {
+            postsContents[i].innerHTML = result;
+        }
+
+        hidePostButtons[i].style.display = "flex";
+        this.style.display = "none";
+        commentsBlocks[i].style.display = "block";
+    });
+
+    iframeCodeButtons[i].addEventListener("click", function (evt) {
+        evt.preventDefault();
+        navigator.clipboard.writeText(iframeInputs[i].value)
+            .then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+            alert('Failed to copy code');
+        })
+        ;
+    });
+
+    iframeContainerCloseButtons[i].addEventListener("click", function () {
+        iframeContainerBlocks[i].style.display = "none";
+    });
+
+    embedPostButtons[i].addEventListener("click", function () {
+        iframeContainerBlocks[i].style.display = "flex";
+    })
 
     selectedFilters[i].addEventListener("click", function () {
         filtersContainers[i].style.display = getComputedStyle(filtersContainers[i]).display === "flex" ? "none" : "flex";

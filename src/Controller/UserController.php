@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 #[Route('/user', name: 'app_user_')]
-#[IsGranted('ROLE_USER')]
+#[IsGranted('ROLE_USER', message: "You need to be logged-in before accessing this page")]
 class UserController extends AbstractController
 {
 

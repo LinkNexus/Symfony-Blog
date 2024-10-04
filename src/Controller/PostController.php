@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\HiddenPost;
 use App\Entity\Post;
 use App\Entity\PostModification;
 use App\Entity\PostReaction;
@@ -26,7 +28,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/post', name: 'app_post_')]
-#[IsGranted('ROLE_USER')]
+#[IsGranted('ROLE_USER', message: "You need to be logged-in before accessing this page")]
 class PostController extends AbstractController
 {
     public function __construct(
@@ -424,6 +426,49 @@ class PostController extends AbstractController
         }
 
         return new JsonResponse(["message" => "The comment has been successfully reported. An admin will review the report and take necessary measures"]);
+    }
+
+    #[Route(path: "/{id}/hide", name: "hide", methods: ["POST"])]
+    public function hide(?Post $post): JsonResponse
+    {
+        if (!$post) {
+            return new JsonResponse(["message" => "The requested post is not found"], 404);
+        }
+
+        if ($post->getOwner() === $this->getUser()) {
+            return new JsonResponse(["message" => "You cannot hide your own post"], 403);
+        }
+
+        $hiddenPost = new HiddenPost();
+        $hiddenPost->setPost($post);
+        $hiddenPost->setUser($this->getUser());
+
+        $this->entityManager->persist($hiddenPost);
+        $this->entityManager->flush();
+        return new JsonResponse(["message" => "The Comment was successfully hidden"]);
+    }
+
+    #[Route(path: "/{id}/display", name: "display", methods: ["POST"])]
+    public function display(?Post $post): JsonResponse
+    {
+        if (!$post) {
+            return new JsonResponse(["message" => "The Requested Comment is not found"], 404);
+        }
+
+        $hiddenPost = $this->entityManager->getRepository(HiddenPost::class)
+            ->findOneBy([
+                "post" => $post,
+                "user" => $this->getUser()
+            ]);
+
+        if ($hiddenPost) {
+            $this->entityManager->remove($hiddenPost);
+            $this->entityManager->flush();
+
+            return new JsonResponse(["content" => $post->getContent()]);
+        }
+
+        return new JsonResponse(null, 404);
     }
 
     /**

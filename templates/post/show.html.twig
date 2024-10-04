@@ -31,9 +31,14 @@
             justify-self: center;
         }
     </style>
-    {% include 'base/_main_header.html.twig' %}
 
+    {% block header %}
+        {% include 'base/_main_header.html.twig' %}
+    {% endblock %}
+
+    {% block flash_messages %}
     {% include 'base/_flash_messages.html.twig' %}
+    {% endblock %}
 
     {% include 'base/_display_posts.html.twig' %}
 {% endblock %}

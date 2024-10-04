@@ -1,0 +1,66 @@
+{% extends 'user/profile-picture-section.html.twig' %}
+
+{% block profile_content %}
+    <div class="profile-content-aside-menus">
+        <aside class="profile-content-aside-menus-intro">
+            <h3>Intro</h3>
+            <div class="profile-content-aside-menus-actions">
+                <div class="profile-content-aside-menus-action">Add Bio</div>
+                <div class="profile-content-aside-menus-action">Add Details</div>
+            </div>
+        </aside>
+
+        <aside class="profile-content-aside-menus-friends">
+            <div class="profile-content-aside-menus-friends-header">
+                <h3><a href="">Friends</a></h3>
+                <div>See all Friends</div>
+            </div>
+            <div class="friends-number">0 friends</div>
+
+            <div class="friends-list">
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="friend">
+                    <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile-pic">
+                    <span>{{ user.username }}</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="profile-main-content">
+        {% include "base/_upload_posts_section.html.twig" %}
+    </div>
+{% endblock %}
+
+

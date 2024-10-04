@@ -58,30 +58,7 @@
                 </a>
             </div>
 
-            <div class="upload-posts-section">
-                <div>
-                    {% set imagePath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-                    <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
-
-                    <div class="fake-upload-post-input form-control" contenteditable="true">
-                        What's on your mind, {{ user.username }}?
-                    </div>
-                </div>
-                <div class="upload-post-actions">
-                    <a href="#" class="upload-post-action">
-                        <img src="{{ asset('images/icons/live.png') }}" alt="">
-                        <span>Live Video</span>
-                    </a>
-                    <a href="#" class="upload-post-action">
-                        <img src="{{ asset('images/icons/photos.png') }}" alt="">
-                        <span>Photos/videos</span>
-                    </a>
-                    <a href="#" class="upload-post-action">
-                        <img src="{{ asset('images/icons/code.png') }}" alt="">
-                        <span>Code</span>
-                    </a>
-                </div>
-            </div>
+            {% include "base/_upload_posts_section.html.twig" %}
 
             {% include 'base/_display_posts.html.twig' %}
 

@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setSlug($slugger->slug($user->getUsername()));
+            $user->setSlug("@" . $slugger->slug($user->getUsername()));
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
