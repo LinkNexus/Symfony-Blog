@@ -3,7 +3,7 @@
         <a href="{{ path('app_home') }}">
             <img src="{{ asset('images/logo.png') }}" alt="logo">
         </a>
-        <div class="fake-search-bar form-control" contenteditable="true">
+        <div class="fake-search-bar form-control">
             <twig:ux:icon name="wpf:search" />
             <span>Search on Nexus</span>
         </div>
@@ -212,7 +212,7 @@
 
 <div class="profile-menu">
     <div class="profiles-block">
-        <div class="profile">
+        <div onclick="window.location.href = '{{ path('app_profile', { slug: user.slug }) }}'" class="profile">
             <img src="{{ asset(avatarPath) }}" alt="profile_picture">
             <span>{{ user.username }}</span>
         </div>
@@ -250,7 +250,7 @@
             <span>Give Feedback</span>
         </div>
         {% if 'ROLE_ADMIN' in user.roles %}
-            <div onclick="window.location.href = '{# {{ path('admin') }} #}'" class="profile-menu-action">
+            <div onclick="window.location.href = '{{ path('admin') }}'" class="profile-menu-action">
                 <div>
                     <twig:ux:icon name="eos-icons:admin" />
                 </div>

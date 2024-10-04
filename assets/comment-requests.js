@@ -66,6 +66,7 @@ export default class CommentRequests {
                         location.href = `/comment/${data.respondedComment}/replies#comment-${data.id}`;
                     else {
                         location.href = `/post/${data.postId}/#comment-${data.id}`; //location.href.split("#")[0] + `#comment-${data.id}`
+                        location.reload();
                     }
                 } else {
                     Utilities.displayMessage(data.message, "danger");

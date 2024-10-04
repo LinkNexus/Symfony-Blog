@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/comment', name: 'app_comment_')]
-#[IsGranted('ROLE_USER')]
+#[IsGranted('ROLE_USER', message: "You need to be logged-in before accessing this page")]
 class CommentController extends AbstractController
 {
     public function __construct(

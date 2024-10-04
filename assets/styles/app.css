@@ -43,7 +43,7 @@
 
 body {
     background-color: var(--principal-background);
-     font-family: SFProDisplay-Regular, serif;
+    font-family: SFProDisplay-Regular, serif;
     display: flex;
     align-content: center;
     box-sizing: unset;

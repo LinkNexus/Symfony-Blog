@@ -5,7 +5,12 @@
                 {% set postAvatarPath = 'images/' ~ post.owner.gender ~ '_icon.jpg' %}
                 <img src="{{ asset(postAvatarPath) }}" alt="">
                 <div>
-                    <a href="#" class="user-username">{{ post.owner.username }}</a>
+                    <div>
+                        <a href="#" class="user-username">{{ post.owner.username }}</a>
+                        {% if "ROLE_ADMIN" in post.owner.roles %}
+                            <span style="font-style: italic">Admin</span>
+                        {% endif %}
+                    </div>
                     <span>{{ post.createdAt|ago }}</span>
                 </div>
             </div>
@@ -23,9 +28,19 @@
                 </a>
             {% endfor %}
         </div>
+        {% set isHidden = false  %}
+        {% for hiddenPost in user.hiddenPosts %}
+            {% if hiddenPost.post == post %}
+                {% set isHidden = true %}
+            {% endif %}
+        {% endfor %}
 
         <div class="fr-view">
-            {{ post.content|raw }}
+            {% if isHidden %}
+                <p class="hide-paragraph">This post is hidden</p>
+            {% else %}
+                {{ post.content|raw }}
+            {% endif %}
         </div>
 
         {% dump(post) %}
@@ -144,7 +159,7 @@
                     <twig:ux:icon class="comment-button" name="fa-brands:telegram-plane" id="comment-form-button-{{ post.id }}" data-post-id="{{ post.id|trans }}" />
                 </form>
             </div>
-            <div class="comments" id="comments">
+            <div style="display: {{ isHidden ? "none" : "block" }}" class="comments" id="comments">
                 {% if not onHomePage %}
                     {% include "base/_display_comments.html.twig" %}
                 {% endif %}
@@ -161,25 +176,23 @@
                     <span>Add this to your saved items</span>
                 </div>
             </div>
-            <div class="post-menu-action">
+            <div class="post-menu-action embed-post">
                 <twig:ux:icon name="ph:code-bold" />
                 <span class="principal-text">Embed</span>
             </div>
-            {% if post.owner.username == user.username %}
+            {% if post.owner.username == user.username or is_granted("ROLE_ADMIN") or "ROLE_ADMIN" in post.owner.roles %}
                 <style>
-                    .report-post {
-                        display: none !important;
+                    #post-menu{{ post.id }}{
+                        & .report-post, & .hide-post, & .snooze, & .block {
+                            display: none !important;
+                        }
                     }
+                </style>
+            {% endif %}
 
-                    .hide-post {
-                        display: none !important;
-                    }
-
-                    .snooze {
-                        display: none !important;
-                    }
-
-                    .block {
+            {% if is_granted("ROLE_ADMIN") or "ROLE_ADMIN" in post.owner.roles %}
+                <style>
+                    #post-menu{{ post.id }} .report-post {
                         display: none !important;
                     }
                 </style>
@@ -188,15 +201,33 @@
                 <twig:ux:icon name="zondicons:shield" />
                 <span class="principal-text">Report post to Admins</span>
             </div>
+
+            {% if not isHidden %}
+                <style>
+                    #post-menu{{ post.id }} .show-post {
+                        display: none;
+                    }
+                </style>
+            {% else %}
+                <style>
+                    #post-menu{{ post.id }} .hide-post {
+                        display: none;
+                    }
+                </style>
+            {% endif %}
             <div class="post-menu-action hide-post">
                 <twig:ux:icon name="charm:circle-cross" />
                 <span class="principal-text">Hide Post</span>
             </div>
+            <div class="post-menu-action show-post">
+                <twig:ux:icon name="clarity:eye-show-line" />
+                <span class="principal-text">Show Post</span>
+            </div>
             <div class="post-menu-action snooze">
                 <twig:ux:icon name="mingcute:time-fill" />
                 <div>
-                    <span class="principal-text">Snooze {{ post.owner.username }} for 30 days</span>
-                    <span>Temporarily stop seeing {{ post.owner.username }} posts.</span>
+                    <span class="principal-text">Snooze {{ post.owner.username }}</span>
+                    <span>Stop seeing {{ post.owner.username }} posts.</span>
                 </div>
             </div>
             <div class="post-menu-action block">
@@ -206,9 +237,38 @@
                     <span>You won't be able to see or contact each other</span>
                 </div>
             </div>
+            <style>
+                #post-menu{{ post.id }} {
+                    .unblock {
+                        display: none;
+                    }
+                }
+            </style>
+            {% for block in user.blocks %}
+                {% if block.blockedUser == post.owner %}
+                    <style>
+                        #post-menu{{ post.id }} {
+                            .block {
+                                display: none;
+                            }
+
+                            .unblock {
+                                display: flex;
+                            }
+                        }
+                    </style>
+                {% endif %}
+            {% endfor %}
+            <div class="post-menu-action unblock">
+                <twig:ux:icon name="solar:user-block-bold" />
+                <div>
+                    <span class="principal-text">Unblock {{ post.owner.username }} profile</span>
+                    <span>You won't be able to see or contact each other</span>
+                </div>
+            </div>
             {% if post.postModifications is empty %}
                 <style>
-                    .see-history {
+                    #post-menu{{ post.id }} .see-history {
                         display: none !important;
                     }
                 </style>
@@ -219,7 +279,7 @@
             </div>
             {% if post.owner != user %}
                 <style>
-                    .edit-post {
+                    #post-menu{{ post.id }} .edit-post {
                         display: none !important;
                     }
                 </style>
@@ -233,7 +293,7 @@
 
             {% if post.owner.username != user.userIdentifier and 'ROLE_ADMIN' not in user.roles %}
                 <style>
-                    .delete-post {
+                    #post-menu{{ post.id }} .delete-post {
                         display: none !important;
                     }
                 </style>
@@ -266,6 +326,27 @@
                         {% endif %}
                     </div>
                 {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="iframe-container-block">
+        <div class="iframe-container">
+            <div class="iframe-container-header">
+                <h2>Embed Post</h2>
+                <div class="iframe-container-close">
+                    <twig:ux:icon name="material-symbols:close" />
+                </div>
+            </div>
+            <div class="iframe-container-content">
+                <span>Copy the code below and paste it into your website.</span>
+                <div>
+                    {% set postPath = url('app_post_show', { id: post.id }) %}
+                    {% set iframeValue = '<iframe src=' ~ postPath ~ ' width="500px" height="500px" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; fullscreen"></iframe>' %}
+                    <code>
+                        <input class="form-control iframe-input" type="text" value="{{ iframeValue }}" disabled>
+                    </code>
+                    <a href="#" class="button iframe-code-button">Copy Code</a>
+                </div>
             </div>
         </div>
     </div>

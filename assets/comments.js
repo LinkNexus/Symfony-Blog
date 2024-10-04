@@ -443,20 +443,20 @@ if (!onHomePage) {
             }
         })
     }
-} else {
-    for (let i = 0; i < commentFormButtons.length; i++) {
-        commentFormButtons[i].addEventListener("click", function () {
-            if (!onRepliesPage && i === 0) {
-                CommentRequests.submit(commentEditors[i], null, false, this.getAttribute("data-post-id"));
-            } else {
-                if (commentBars[i].getAttribute("toBeEdited") !== "true")
-                    CommentRequests.submit(commentEditors[i], this.getAttribute("data-comment-id"));
-                else
-                    CommentRequests.submit(commentEditors[i], this.getAttribute("data-comment-id"), true);
-            }
+}
 
-            this.style.display = "none";
-        })
-    }
+for (let i = 0; i < commentFormButtons.length; i++) {
+    commentFormButtons[i].addEventListener("click", function () {
+        if (!onRepliesPage && i === 0) {
+            CommentRequests.submit(commentEditors[i], null, false, this.getAttribute("data-post-id"));
+        } else {
+            if (commentBars[i].getAttribute("toBeEdited") !== "true")
+                CommentRequests.submit(commentEditors[i], this.getAttribute("data-comment-id"));
+            else
+                CommentRequests.submit(commentEditors[i], this.getAttribute("data-comment-id"), true);
+        }
+
+        this.style.display = "none";
+    })
 }
 

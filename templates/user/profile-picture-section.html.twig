@@ -1,0 +1,202 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Profile{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('main') }}
+    {{ encore_entry_link_tags('posts') }}
+    {{ encore_entry_link_tags('profile') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('main') }}
+    {{ encore_entry_script_tags('posts') }}
+    {{ encore_entry_script_tags('comments') }}
+    {{ encore_entry_script_tags('profile') }}
+{% endblock %}
+
+{% block body %}
+
+    {% include 'base/_main_header.html.twig' with { 'user': app.user } %}
+
+    {% include "base/_flash_messages.html.twig" %}
+
+    <div class="profile-section">
+        {% block profile_section %}
+            <div class="profile-picture-section">
+
+                <style>
+                    .icon-block {
+                        &:not(.home-icon) {
+                            border-radius: 10px;
+
+                            &:hover {
+                                background: var(--principal-background);
+                            }
+                        }
+
+                        &.home-icon {
+                            border-bottom: 5px solid var(--principal-color);
+
+                            & svg > path {
+                                fill: var(--principal-color) !important;
+                            }
+                        }
+                    }
+
+                    .cover-photo {
+                        background-size: 110% !important;
+                        background: url('{{ asset('images/cover_photo.jpg') }}') no-repeat center;
+
+                        &:hover {
+                            filter: brightness(90%);
+                            cursor: pointer;
+                        }
+                    }
+                </style>
+                <div class="cover-photo">
+                    <div class="cover-photo-button-container">
+                        <div class="cover-photo-button">
+                            <twig:ux:icon name="f7:camera-fill" />
+                            <span>Edit cover photo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-picture-container">
+                    <div class="profile-picture-infos">
+                        <div class="profile-image-block">
+                            <div class="image-container">
+                                <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile_image">
+                            </div>
+                            <div class="profile-image-block-button">
+                                <twig:ux:icon name="f7:camera-fill" />
+                            </div>
+                        </div>
+
+                        <div class="profile-infos">
+                            <span class="user-username">{{ user.username }}</span>
+                            <span class="friends-number">0 friends</span>
+                            <div class="friends-area"></div>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        {% if user == app.user %}
+                            <a href="" class="button">
+                                <twig:ux:icon name="ic:baseline-plus" />
+                                <span>Add to story</span>
+                            </a>
+                            <a href="" class="button">
+                                <twig:ux:icon name="mingcute:edit-line" class="main-menu-icon" />
+                                <span>Edit profile</span>
+                            </a>
+                        {% else %}
+                            <a href="" class="button">
+                                <twig:ux:icon name="ic:sharp-person-add" />
+                                <span>Add Friend</span>
+                            </a>
+                            <a href="" class="button">
+                                <twig:ux:icon name="mdi:flask" />
+                                <span>Message</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="profile-nav-bar">
+                    <div class="profile-nav-bar-actions">
+                        <div class="profile-nav-bar-action">
+                            <span>Posts</span>
+                        </div>
+                        <div class="profile-nav-bar-action about">
+                            <span>About</span>
+                        </div>
+                        <div class="profile-nav-bar-action friends">
+                            <span>Friends</span>
+                        </div>
+                        <div class="profile-nav-bar-action reels">
+                            <span>Reels</span>
+                        </div>
+                        <div class="profile-nav-bar-action likes">
+                            <span>Likes</span>
+                        </div>
+                        <div class="profile-nav-bar-dropdown">
+                            <div class="profile-nav-bar-dropdown-trigger" role="button">
+                                <span>More</span>
+                                <twig:ux:icon class="chevron-down" name="heroicons-solid:chevron-down" />
+                                <twig:ux:icon class="chevron-up" name="heroicons-solid:chevron-up" />
+                            </div>
+                            <div class="profile-nav-bar-dropdown-menu">
+                                <div class="profile-nav-bar-action">
+                                    <span>Groups</span>
+                                </div>
+                                <div class="profile-nav-bar-action about">
+                                    <span>About</span>
+                                </div>
+                                <div class="profile-nav-bar-action friends">
+                                    <span>Friends</span>
+                                </div>
+                                <div class="profile-nav-bar-action">
+                                    <span>Reels</span>
+                                </div>
+                                <div class="profile-nav-bar-action">
+                                    <span>Likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="supplementary-actions-button">
+                        <twig:ux:icon name="tabler:dots" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-options-container-block">
+                <div class="profile-options-container">
+                    <div class="profile-options-container-header">
+                        <h2>Options</h2>
+                        <div class="profile-options-container-close">
+                            <twig:ux:icon name="material-symbols:close" />
+                        </div>
+                    </div>
+
+                    <div class="profile-options">
+                        <div class="profile-option">
+                            <twig:ux:icon name="hugeicons:view" />
+                            <span>View as</span>
+                        </div>
+                        <div class="profile-option">
+                            <twig:ux:icon name="material-symbols:search" />
+                            <span>Search</span>
+                        </div>
+                        <div class="profile-option">
+                            <twig:ux:icon name="grommet-icons:status-good" />
+                            <span>Profile Status</span>
+                        </div>
+                        <div class="profile-option">
+                            <twig:ux:icon name="mdi:archive-clock-outline" />
+                            <span>Story Archive</span>
+                        </div>
+                        <div class="profile-option">
+                            <twig:ux:icon name="ri:user-settings-fill" />
+                            <span>Profile Settings</span>
+                        </div>
+                        <div class="profile-option">
+                            <twig:ux:icon name="tabler:activity" />
+                            <span>Activity Log</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                {% block profile_content %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+    </div>
+
+{% endblock %}

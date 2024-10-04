@@ -37,4 +37,18 @@ export default class Utilities {
     }
 
     static delay = time => new Promise(res => setTimeout(res, time));
+    static getPostTitle() {
+        const elements = document.querySelectorAll(".post-block .fr-view p, .post-block .fr-view span");
+
+        for (const element of elements) {
+            const styles = getComputedStyle(element);
+            const fontSize = styles.fontSize.replace("px", "");
+
+            if (styles.fontWeight >= 700 && fontSize >= 20) {
+                return element.innerText;
+            }
+        }
+
+        return false;
+    }
 }

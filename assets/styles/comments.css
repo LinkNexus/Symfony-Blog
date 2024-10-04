@@ -2,10 +2,6 @@
     display: flex;
     margin-bottom: 20px;
 
-    & .hide-paragraph {
-        font-style: italic;
-    }
-
     &>img {
         width: 40px;
         min-width: 40px;

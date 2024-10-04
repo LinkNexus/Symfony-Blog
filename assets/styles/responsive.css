@@ -52,8 +52,77 @@
     }
 }
 
-@media only screen and (max-width: 925px) {
+@media only screen and (max-width: 975px) {
+    .cover-photo {
+        width: 100% !important;
+        border-radius: 0 !important;
+        height: 30vh !important;
 
+        .cover-photo-button {
+            width: fit-content !important;
+
+            & span {
+                display: none !important;
+            }
+        }
+    }
+
+    .profile-picture-container {
+        width: 100% !important;
+        flex-direction: column !important;
+
+        & .profile-picture-infos {
+            flex-direction: column !important;
+            /*background: red;*/
+            width: 100%;
+            margin-right: 0 !important;
+
+            /*& .profile-image-block {*/
+            /*    margin-left: 40px;*/
+            /*}*/
+
+            & .profile-infos {
+                align-items: center;
+            }
+        }
+
+        & .profile-actions {
+            width: 80%;
+            margin-bottom: 35px;
+            /*background: red;*/
+
+            & .button {
+                width: 100% !important;
+                justify-content: center !important;
+                box-sizing: border-box;
+
+                & svg {
+                    margin-right: 20px !important;
+                }
+            }
+        }
+    }
+
+    .profile-nav-bar-actions {
+        &>.profile-nav-bar-action {
+            width: 25% !important;
+            &:nth-child(4), &:nth-child(5){
+                display: none !important;
+                /*background: red;*/
+            }
+        }
+
+        & .profile-nav-bar-dropdown-menu {
+            & .profile-nav-bar-action {
+                &:nth-child(4), &:nth-child(5) {
+                    display: block !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 925px) {
     & .website-name {
         & h1 {
             font-size: 3.625rem !important;
@@ -95,7 +164,7 @@
         }
     }
 
-    .comment-reactions-container, .post-reactions-container {
+    .comment-reactions-container, .post-reactions-container, .profile-options-container {
         width: 60% !important;
     }
 }
@@ -119,6 +188,16 @@
         margin-right: 0 !important;
         width: 90% !important;
         align-self: center !important;
+    }
+
+    & .image-container {
+        & img {
+            width: 150px !important;
+        }
+    }
+
+    & .profile-actions {
+        flex-direction: column !important;
     }
 }
 
@@ -151,8 +230,25 @@
         }
     }
 
-    .comment-reactions-container, .post-reactions-container {
+    .comment-reactions-container, .post-reactions-container, .iframe-container, .comment-reactions-container {
         width: 75% !important;
+
+        & .iframe-container-content {
+            & div {
+                flex-direction: column !important;
+            }
+
+            & code {
+                margin-bottom: 10px !important;
+                margin-right: 0 !important;
+            }
+
+            & .button {
+                width: 100% !important;
+                margin-left: 0 !important;
+                align-self: center;
+            }
+        }
     }
 
     & .comment-reply-bar {
@@ -245,6 +341,24 @@
 
     .comment-reactions-container, .post-reactions-container {
         width: 80% !important;
+    }
+
+    .profile-nav-bar-actions {
+        &>.profile-nav-bar-action {
+            width: 33% !important;
+
+            &:nth-child(2), &:nth-child(3) {
+                display: none !important;
+            }
+        }
+
+        & .profile-nav-bar-dropdown-menu {
+            & .profile-nav-bar-action {
+                &:nth-child(2), &:nth-child(3) {
+                    display: block !important;
+                }
+            }
+        }
     }
 }
 

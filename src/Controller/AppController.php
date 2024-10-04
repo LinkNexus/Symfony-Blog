@@ -14,18 +14,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
-class HomeController extends AbstractController
+class AppController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {}
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/current-user', name: 'current-user', methods: ["GET", 'POST'])]
     public function getCurrentUser(): JsonResponse
     {
         return new JsonResponse($this->getUser());
     }
 
+    #[IsGranted('ROLE_USER', message: "You need to be logged-in before accessing this page")]
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
@@ -40,6 +41,7 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/delete/file', name: 'app_delete_files', methods: ['POST'])]
     public function deleteFiles(Request $request): JsonResponse
     {
@@ -50,4 +52,27 @@ class HomeController extends AbstractController
 
         return new JsonResponse(['message' => 'File deleted!']);
     }
+
+    #[Route('/post/{id}/preview', name: 'app_post_preview')]
+    public function postPreview(?Post $post): Response
+    {
+        if (!$post) {
+            $this->addFlash('danger', 'The Requested Post is not found');
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render("app/post_preview.html.twig", [
+            "post" => $post
+        ]);
+    }
+
+    /* #[Route(path: "/adminer", name: "app_adminer")]
+    public function adminer(): Response
+    {
+        ob_start();
+        include "../public/adminer.php";
+        $content = ob_get_clean();
+
+        return new Response($content);
+    } */
 }

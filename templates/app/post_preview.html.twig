@@ -1,0 +1,125 @@
+{% extends 'post/show.html.twig' %}
+
+{% block title %} {% endblock %}
+{% block javascripts %} {% endblock %}
+
+{% block body %}
+    <style>
+        .icon-block {
+            border-radius: 10px;
+
+            &:hover {
+                background: var(--principal-background);
+            }
+        }
+
+        .post-block {
+            align-self: center;
+            justify-self: center;
+        }
+    </style>
+
+    {% block header %}{% endblock %}
+    {% block flash_messages %} {% endblock %}
+
+    <div class="post-block" id="post_{{ post.id }}">
+        <div class="post-header">
+            <div class="profile">
+                {% set postAvatarPath = 'images/' ~ post.owner.gender ~ '_icon.jpg' %}
+                <img src="{{ asset(postAvatarPath) }}" alt="">
+                <div>
+                    <div>
+                        <a href="#" class="user-username">{{ post.owner.username }}</a>
+                        {% if "ROLE_ADMIN" in post.owner.roles %}
+                            <span style="font-style: italic">Admin</span>
+                        {% endif %}
+                    </div>
+                    <span>{{ post.createdAt|ago }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="categories">
+            {% for category in post.categories %}
+                <a href="#" class="category">
+                    {{ category.icon|raw }}
+                    <span>{{ category.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="fr-view">
+            {{ post.content|raw }}
+        </div>
+
+        <div class="post-reacts-infos">
+            <div class="post-reacts-number">
+                <div class="post-likes">
+                    <twig:ux:icon name="mdi:like" class="post-like-icon" />
+                    <span id="likes-number{{ post.id }}" class="likes-number">
+                        {% set likes = 0 %}
+                        {% for react in post.postReactions %}
+                            {% if react.type == 'like' %}
+                                {% set likes = likes + 1 %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {{ likes }}
+                    </span>
+                </div>
+                <div class="post-dislikes">
+                    <twig:ux:icon name="mdi:dislike" class="post-dislike-icon" />
+                    <span id="dislikes-number{{ post.id }}" class="dislikes-number">
+                        {% set dislikes = 0 %}
+                        {% for react in post.postReactions %}
+                            {% if react.type == 'dislike' %}
+                                {% set dislikes = dislikes + 1 %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {{ dislikes }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="post-comments-number">
+                <span>
+                    {% set commentsNumber = 0 %}
+                    {% for comment in post.comments %}
+                        {% set commentsNumber = commentsNumber + 1 %}
+                    {% endfor %}
+
+                    {{ commentsNumber }}
+                </span>
+                <twig:ux:icon name="iconamoon:comment-fill" />
+            </div>
+        </div>
+    </div>
+
+    <div class="post-reactions-container-block">
+        <div class="post-reactions-container">
+            <div class="post-reactions-container-header">
+                <h2>Reactions</h2>
+                <div class="post-reactions-container-close">
+                    <twig:ux:icon name="material-symbols:close" />
+                </div>
+            </div>
+            <div class="post-reactions-container-content">
+                {% for reaction in post.postReactions %}
+                    <div class="reaction-block">
+                        {% set avatarPath = 'images/' ~ reaction.owner.gender ~ '_icon.jpg' %}
+                        <img src="{{ asset(avatarPath) }}" alt="profile-picture">
+                        <a href="">{{ reaction.owner.username }}</a>
+
+                        {% if reaction.type == "like" %}
+                            <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
+                        {% else %}
+                            <twig:ux:icon style="color: red;" name="mdi:dislike" />
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

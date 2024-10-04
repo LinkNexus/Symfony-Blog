@@ -59,6 +59,12 @@ class Post implements \JsonSerializable
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true)]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, HiddenPost>
+     */
+    #[ORM\OneToMany(targetEntity: HiddenPost::class, mappedBy: 'post')]
+    private Collection $hiddenPosts;
+
     public function __construct()
     {
         $this->postModifications = new ArrayCollection();
@@ -67,6 +73,7 @@ class Post implements \JsonSerializable
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
+        $this->hiddenPosts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,5 +277,35 @@ class Post implements \JsonSerializable
         return array(
             "id" => $this->getId()
         );
+    }
+
+    /**
+     * @return Collection<int, HiddenPost>
+     */
+    public function getHiddenPosts(): Collection
+    {
+        return $this->hiddenPosts;
+    }
+
+    public function addHiddenPost(HiddenPost $hiddenPost): static
+    {
+        if (!$this->hiddenPosts->contains($hiddenPost)) {
+            $this->hiddenPosts->add($hiddenPost);
+            $hiddenPost->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHiddenPost(HiddenPost $hiddenPost): static
+    {
+        if ($this->hiddenPosts->removeElement($hiddenPost)) {
+            // set the owning side to null (unless already changed)
+            if ($hiddenPost->getPost() === $this) {
+                $hiddenPost->setPost(null);
+            }
+        }
+
+        return $this;
     }
 }
