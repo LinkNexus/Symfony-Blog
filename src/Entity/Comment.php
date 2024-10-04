@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
-#[ORM\Table(name: 'symfony_blog_comment')]
 class Comment implements \JsonSerializable
 {
     #[ORM\Id]

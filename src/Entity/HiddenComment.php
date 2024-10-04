@@ -6,7 +6,6 @@ use App\Repository\HiddenCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HiddenCommentRepository::class)]
-#[ORM\Table(name: 'symfony_blog_hidden_comment')]
 class HiddenComment
 {
     #[ORM\Id]
