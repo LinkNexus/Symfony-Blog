@@ -6,7 +6,7 @@ use App\Repository\BlockRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BlockRepository::class)]
-#[ORM\Table(name: 'symfony-blog-block')]
+#[ORM\Table(name: 'symfony_blog_block')]
 class Block
 {
     #[ORM\Id]

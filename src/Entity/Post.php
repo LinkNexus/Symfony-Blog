@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[ORM\Table(name: 'symfony-blog-post')]
+#[ORM\Table(name: 'symfony_blog_post')]
 class Post implements \JsonSerializable
 {
     #[ORM\Id]

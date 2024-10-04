@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WarningRepository::class)]
-#[ORM\Table(name: 'symfony-blog-warning')]
+#[ORM\Table(name: 'symfony_blog_warning')]
 class Warning
 {
     #[ORM\Id]

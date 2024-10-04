@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostAudienceRepository::class)]
-#[ORM\Table(name: 'symfony-blog-post-audience')]
+#[ORM\Table(name: 'symfony_blog_post_audience')]
 class PostAudience
 {
     #[ORM\Id]
