@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostModificationRepository::class)]
+#[ORM\Table(name: 'blog_posts_modifications')]
 class PostModification
 {
     #[ORM\Id]

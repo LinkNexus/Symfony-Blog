@@ -6,6 +6,7 @@ use App\Repository\SnoozeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SnoozeRepository::class)]
+#[ORM\Table(name: 'blog_snoozes')]
 class Snooze
 {
     #[ORM\Id]
