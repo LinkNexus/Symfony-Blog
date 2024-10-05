@@ -31,6 +31,11 @@ class AppController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
+
+//        if (!$user->isVerified()) {
+//            return $this->redirectToRoute('app_logout');
+//        }
+
         $posts = $this->entityManager->getRepository(Post::class)->findAllAccessiblePosts();
         $commentForm = $this->createForm(CommentFormType::class);
 

@@ -230,6 +230,14 @@
         }
     }
 
+    .create-post-form-container {
+        & .profile {
+            & .post-form-audience {
+                min-width: 80% !important;
+            }
+        }
+    }
+
     .comment-reactions-container, .post-reactions-container, .iframe-container, .comment-reactions-container {
         width: 75% !important;
 

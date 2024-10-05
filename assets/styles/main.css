@@ -639,6 +639,8 @@
             align-self: flex-start;
             max-height: 110px;
             overflow: visible;
+            position: relative;
+            width: 100%;
 
             & img {
                 height: 50px;
@@ -689,6 +691,9 @@
                 padding: 15px;
                 border-radius: 10px;
                 margin-left: 20px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
 
                 & select {
                     display: none;
