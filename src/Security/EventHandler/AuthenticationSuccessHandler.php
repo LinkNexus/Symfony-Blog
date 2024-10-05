@@ -33,7 +33,7 @@ readonly class AuthenticationSuccessHandler implements AuthenticationSuccessHand
             $session->getFlashBag()->add('success', 'You are logged in to Nexus');
             return new RedirectResponse($this->router->generate('app_home'));
         } else {
-            $session->getFlashBag()->add('success', 'You need a verified account to access this Website. Check your Mailbox if during after registration, a verification mail from us has been sent to you');
+            $session->getFlashBag()->add('info', 'You need a verified account to access this Website. Check your Mailbox if during after registration, a verification mail from us has been sent to you');
             return $this->security->logout(false);
         }
     }
