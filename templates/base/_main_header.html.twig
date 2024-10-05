@@ -213,7 +213,7 @@
 <div class="profile-menu">
     <div class="profiles-block">
         <div onclick="window.location.href = '{{ path('app_profile', { slug: user.slug }) }}'" class="profile">
-            <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+            <img src="{{ avatarPath|lower) }}" alt="profile_picture">
             <span>{{ user.username }}</span>
         </div>
         <a href="">See all profiles</a>
