@@ -29,6 +29,11 @@
             </div>
             <button class="button">Send password reset email</button>
             {{ form_end(requestForm) }}
+
+            <div class="buttons">
+                <a class="button" href="{{ path('app_login') }}">Login</a>
+                <a class="button" href="{{ path('app_register') }}">Sign Up</a>
+            </div>
         </div>
     </div>
 {% endblock %}
