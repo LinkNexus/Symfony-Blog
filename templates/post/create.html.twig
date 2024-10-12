@@ -26,10 +26,18 @@
     </style>
     {% include 'base/_main_header.html.twig' %}
 
+    {% include 'base/_flash_messages.html.twig' %}
+
+    <div class="alert alert-info tip">
+        <div class="tip-icon">
+            <twig:ux:icon name="mdi:idea" />
+            <strong>Tip:</strong>
+        </div>
+        <span class="tip-text">In order to make your posts easily findable and to have it have a SEO friendly URL, make the title of your post have a font weight of at least 700 and a font-size of at least 20px (1.25rem)</span>
+    </div>
+
     <div class="create-post-form-container">
         <h2>Create Post</h2>
-
-        {% include 'base/_flash_messages.html.twig' %}
 
         {% include 'post/_form.html.twig' %}
     </div>

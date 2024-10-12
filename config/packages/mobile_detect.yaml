@@ -1,0 +1,27 @@
+# conﬁg/packages/mobile_detect.yaml
+mobile_detect:
+  redirect:
+    full:
+      action: no_redirect            # redirect, no_redirect, redirect_without_path
+#      host: '%env(REDIRECT_DESKTOP)%'      # with scheme (http|https), default null, url validate
+      is_enabled: true            # default false
+      status_code: 302            # default 302
+    mobile:
+      action: no_redirect            # redirect, no_redirect, redirect_without_path
+#      host: '%env(REDIRECT_MOBILE)%'     # with scheme (http|https), default null, url validate
+      is_enabled: true            # default false
+      status_code: 301            # default 302
+#    tablet:
+#      action: redirect            # redirect, no_redirect, redirect_without_path
+#      host: http://t.site.com     # with scheme (http|https), default null, url validate
+#      is_enabled: true            # default false
+#      status_code: 301            # default 302
+#    detect_tablet_as_mobile: true # default false
+
+  switch_device_view:
+    save_referer_path: false                  # default true
+      # true  redirectUrl = http://site.com/current/path?currentQuery=string
+    # false redirectUrl = http://site.com
+  cookie_expire_datetime_modifier: '+1 month' # default
+  cookie_key: 'device_view'                   # default
+  switch_param: 'device_view'                 # default

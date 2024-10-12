@@ -608,6 +608,32 @@
     }
 }
 
+.tip {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 75%;
+    align-self: center;
+    margin-top: 20px;
+
+    & .tip-icon {
+        display: flex;
+        margin-right: 10px;
+
+        & svg {
+            aspect-ratio: 1;
+            width: 25px;
+            min-width: 25px;
+            display: inline-block;
+        }
+    }
+
+    & .tip-text {
+        max-width: 60%;
+        text-align: center;
+    }
+}
+
 .create-post-form-container {
     margin-top: 20px;
     width: 75%;

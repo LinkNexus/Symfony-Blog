@@ -10,6 +10,8 @@ parameters:
     comments_images_directory: '%kernel.project_dir%/public/uploads/comments/images'
     comments_videos_directory: '%kernel.project_dir%/public/uploads/comments/videos'
     comments_files_directory: '%kernel.project_dir%/public/uploads/comments/files'
+    redirect_desktop_host: '%env(REDIRECT_DESKTOP)%'
+    redirect_mobile_host: '%env(REDIRECT_MOBILE)%'
 
 services:
     # default configuration for services in *this* file

@@ -9,7 +9,7 @@
         "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
         "@symfony/ux-notify": "file:vendor/symfony/ux-notify/assets",
         "@symfony/ux-toggle-password": "file:vendor/symfony/ux-toggle-password/assets",
-        "@symfony/webpack-encore": "^4.0.0",
+        "@symfony/webpack-encore": "^4.7.0",
         "core-js": "^3.23.0",
         "regenerator-runtime": "^0.13.9",
         "tom-select": "^2.2.2",

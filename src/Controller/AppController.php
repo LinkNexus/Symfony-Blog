@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use MobileDetectBundle\DeviceDetector\MobileDetectorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AppController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly MobileDetectorInterface $mobileDetector)
     {}
 
     #[IsGranted('ROLE_USER')]
@@ -31,13 +32,7 @@ class AppController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
-
-//        if (!$user->isVerified()) {
-//            return $this->redirectToRoute('app_logout');
-//        }
-
         $posts = $this->entityManager->getRepository(Post::class)->findAllAccessiblePosts();
-        $commentForm = $this->createForm(CommentFormType::class);
 
         return $this->render('home/index.html.twig', [
             'user' => $user,

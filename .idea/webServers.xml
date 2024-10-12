@@ -3,7 +3,14 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="6546ff89-af44-45ff-b534-83f1f01020fd" name="PERSONAL-SERVER">
-        <fileTransfer rootFolder="/home/levynkeneng" accessType="SFTP" host="100.77.80.63" port="22" sshConfigId="e5bf64cb-680e-4851-8271-39895c31feac" sshConfig="levynkeneng@100.77.80.63:22 agent" authAgent="true">
+        <fileTransfer rootFolder="/home/levynkeneng.dev" accessType="SFTP" host="100.77.80.63" port="22" sshConfigId="e5bf64cb-680e-4851-8271-39895c31feac" sshConfig="levynkeneng@100.77.80.63:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="1e88454b-77d7-45ea-b2c5-6acdcaef85ac" name="MY-SERVER">
+        <fileTransfer rootFolder="/home/levynkeneng.dev/domains/symfonyblog.levynkeneng.dev" accessType="SFTP" host="212.47.70.2" port="22" sshConfigId="8a517dc6-92a3-4165-a779-de71fc117505" sshConfig="levynkeneng.dev@212.47.70.2:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

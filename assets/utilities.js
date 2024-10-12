@@ -37,6 +37,7 @@ export default class Utilities {
     }
 
     static delay = time => new Promise(res => setTimeout(res, time));
+
     static getPostTitle() {
         const elements = document.querySelectorAll(".post-block .fr-view p, .post-block .fr-view span");
 

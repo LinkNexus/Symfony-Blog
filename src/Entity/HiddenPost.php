@@ -6,7 +6,6 @@ use App\Repository\HiddenPostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HiddenPostRepository::class)]
-#[ORM\Table(name: 'blog_hidden_posts')]
 class HiddenPost
 {
     #[ORM\Id]

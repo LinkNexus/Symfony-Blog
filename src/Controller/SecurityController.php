@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use MobileDetectBundle\DeviceDetector\MobileDetectorInterface;
+use MobileDetectBundle\MobileDetectBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,5 +112,96 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    #[Route(path: '/categories', name: 'app_cat')]
+    public function categories(EntityManagerInterface $entityManager) {
+        $categories = [
+            // Existing 50 categories
+            ['name' => 'AI & Machine Learning', 'slug' => 'ai-machine-learning'],
+            ['name' => 'Blockchain & Cryptocurrency', 'slug' => 'blockchain-cryptocurrency'],
+            ['name' => 'Software Development', 'slug' => 'software-development'],
+            ['name' => 'Programming Languages', 'slug' => 'programming-languages'],
+            ['name' => 'Mobile App Development', 'slug' => 'mobile-app-development'],
+            ['name' => 'Cybersecurity & Privacy', 'slug' => 'cybersecurity-privacy'],
+            ['name' => 'Cloud Computing', 'slug' => 'cloud-computing'],
+            ['name' => 'Augmented Reality (AR) & Virtual Reality (VR)', 'slug' => 'augmented-reality-virtual-reality'],
+            ['name' => 'Quantum Computing', 'slug' => 'quantum-computing'],
+            ['name' => 'Big Data & Analytics', 'slug' => 'big-data-analytics'],
+            ['name' => 'Tech Startups & Innovation', 'slug' => 'tech-startups-innovation'],
+            ['name' => 'Internet of Things (IoT)', 'slug' => 'internet-of-things'],
+            ['name' => 'Web Development', 'slug' => 'web-development'],
+            ['name' => 'Tech Industry News', 'slug' => 'tech-industry-news'],
+            ['name' => 'Data Science & Artificial Intelligence', 'slug' => 'data-science-artificial-intelligence'],
+            ['name' => 'Product Reviews', 'slug' => 'product-reviews'],
+            ['name' => 'Gadgets & Hardware', 'slug' => 'gadgets-hardware'],
+            ['name' => 'Open Source Projects', 'slug' => 'open-source-projects'],
+            ['name' => '5G & Networking Technologies', 'slug' => '5g-networking-technologies'],
+            ['name' => 'Automation & Robotics', 'slug' => 'automation-robotics'],
+            ['name' => 'Future Tech & Predictions', 'slug' => 'future-tech-predictions'],
+            ['name' => 'Tech Tutorials & Guides', 'slug' => 'tech-tutorials-guides'],
+            ['name' => 'User Experience (UX) & User Interface (UI) Design', 'slug' => 'user-experience-ui-design'],
+            ['name' => 'Wearables & Smart Devices', 'slug' => 'wearables-smart-devices'],
+            ['name' => 'Green Tech & Sustainable Technology', 'slug' => 'green-tech-sustainable-technology'],
+            ['name' => 'Tech for Social Good', 'slug' => 'tech-for-social-good'],
+            ['name' => 'Digital Transformation', 'slug' => 'digital-transformation'],
+            ['name' => 'Startups & Venture Capital', 'slug' => 'startups-venture-capital'],
+            ['name' => 'Productivity Tools & Apps', 'slug' => 'productivity-tools-apps'],
+            ['name' => 'Tech Events & Conferences', 'slug' => 'tech-events-conferences'],
+            ['name' => 'Ethics in Technology', 'slug' => 'ethics-in-technology'],
+            ['name' => 'Tech Career Advice & Resources', 'slug' => 'tech-career-advice-resources'],
+            ['name' => 'Tech Investment & Finance', 'slug' => 'tech-investment-finance'],
+            ['name' => 'E-commerce & Digital Payment Solutions', 'slug' => 'ecommerce-digital-payment-solutions'],
+            ['name' => 'Gaming & Game Development', 'slug' => 'gaming-game-development'],
+            ['name' => 'Tech Laws & Regulations', 'slug' => 'tech-laws-regulations'],
+            ['name' => 'Cloud Storage & Data Management', 'slug' => 'cloud-storage-data-management'],
+            ['name' => 'DevOps & Continuous Integration', 'slug' => 'devops-continuous-integration'],
+            ['name' => 'Tech Myths Debunked', 'slug' => 'tech-myths-debunked'],
+            ['name' => 'Smart Homes & Home Automation', 'slug' => 'smart-homes-home-automation'],
+            ['name' => 'Digital Art & Creativity Tools', 'slug' => 'digital-art-creativity-tools'],
+            ['name' => 'Augmented Analytics', 'slug' => 'augmented-analytics'],
+            ['name' => 'Streaming & Entertainment Technology', 'slug' => 'streaming-entertainment-technology'],
+            ['name' => 'Tech Trends & Innovations', 'slug' => 'tech-trends-innovations'],
+            ['name' => 'IT & Infrastructure', 'slug' => 'it-infrastructure'],
+            ['name' => 'Hackathons & Coding Competitions', 'slug' => 'hackathons-coding-competitions'],
+            ['name' => 'Tech for Education', 'slug' => 'tech-for-education'],
+            ['name' => 'Online Security Tips', 'slug' => 'online-security-tips'],
+            ['name' => 'Tech History & Evolution', 'slug' => 'tech-history-evolution'],
+            ['name' => 'Virtual Collaboration Tools', 'slug' => 'virtual-collaboration-tools'],
+
+            // 25 New Categories
+            ['name' => 'Edge Computing', 'slug' => 'edge-computing'],
+            ['name' => 'Self-Driving Cars', 'slug' => 'self-driving-cars'],
+            ['name' => 'Drone Technology', 'slug' => 'drone-technology'],
+            ['name' => 'Digital Twins', 'slug' => 'digital-twins'],
+            ['name' => 'Smart Cities', 'slug' => 'smart-cities'],
+            ['name' => 'Biotechnology & Tech', 'slug' => 'biotechnology-tech'],
+            ['name' => 'Voice Assistants & Natural Language Processing (NLP)', 'slug' => 'voice-assistants-nlp'],
+            ['name' => 'Digital Health & Wearable Tech', 'slug' => 'digital-health-wearable-tech'],
+            ['name' => 'Neural Interfaces & Brain-Computer Interaction', 'slug' => 'neural-interfaces-brain-computer-interaction'],
+            ['name' => 'Mixed Reality (MR)', 'slug' => 'mixed-reality'],
+            ['name' => '3D Printing & Additive Manufacturing', 'slug' => '3d-printing-additive-manufacturing'],
+            ['name' => 'Computer Vision', 'slug' => 'computer-vision'],
+            ['name' => 'Tech for Climate Change', 'slug' => 'tech-for-climate-change'],
+            ['name' => 'Low-Code & No-Code Platforms', 'slug' => 'low-code-no-code-platforms'],
+            ['name' => 'AI-Powered Automation', 'slug' => 'ai-powered-automation'],
+            ['name' => 'Tech in Space Exploration', 'slug' => 'tech-in-space-exploration'],
+            ['name' => 'Cryptography & Digital Signatures', 'slug' => 'cryptography-digital-signatures'],
+            ['name' => 'OpenAI & GPT Technology', 'slug' => 'openai-gpt-technology'],
+            ['name' => 'Metaverse & Virtual Worlds', 'slug' => 'metaverse-virtual-worlds'],
+            ['name' => 'Digital Identity & Decentralized Identity', 'slug' => 'digital-identity-decentralized-identity'],
+            ['name' => 'Hyperautomation', 'slug' => 'hyperautomation'],
+            ['name' => 'NFTs & Digital Ownership', 'slug' => 'nfts-digital-ownership'],
+            ['name' => 'Robotic Process Automation (RPA)', 'slug' => 'robotic-process-automation'],
+            ['name' => 'Human Augmentation', 'slug' => 'human-augmentation'],
+            ['name' => 'Edge AI & On-Device AI', 'slug' => 'edge-ai-on-device-ai']
+        ];
+
+        foreach ($categories as $category) {
+            $entityManager->persist((new Category())->setName($category['name'])->setSlug($category['slug'])->setIcon('test'));
+        }
+
+        $entityManager->flush();
+        return new Response("test");
     }
 }
