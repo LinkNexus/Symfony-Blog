@@ -41,13 +41,15 @@ class ChangePasswordFormType extends AbstractType
                     'label' => 'New password',
                     "attr" => [
                         "placeholder" => "New Password"
-                    ]
+                    ],
+                    'toggle' => true
                 ],
                 'second_options' => [
                     'label' => 'Repeat Password',
                     "attr" => [
                         "placeholder" => "Repeat Password"
-                    ]
+                    ],
+                    'toggle' => true
                 ],
                 'invalid_message' => 'The password fields must match.',
                 // Instead of being set onto the object directly,

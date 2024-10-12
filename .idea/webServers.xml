@@ -10,7 +10,7 @@
         </fileTransfer>
       </webServer>
       <webServer id="1e88454b-77d7-45ea-b2c5-6acdcaef85ac" name="MY-SERVER">
-        <fileTransfer rootFolder="/home/levynkeneng.dev/domains/symfonyblog.levynkeneng.dev" accessType="SFTP" host="212.47.70.2" port="22" sshConfigId="8a517dc6-92a3-4165-a779-de71fc117505" sshConfig="levynkeneng.dev@212.47.70.2:22 password">
+        <fileTransfer rootFolder="/home/levynkeneng.dev/domains/symfonyblog.levynkeneng.dev/public_html" accessType="SFTP" host="212.47.70.2" port="22" sshConfigId="8a517dc6-92a3-4165-a779-de71fc117505" sshConfig="levynkeneng.dev@212.47.70.2:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
