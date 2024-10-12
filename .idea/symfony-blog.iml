@@ -166,6 +166,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/google-mailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mobiledetect/mobiledetectlib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tattali/mobile-detect-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/remote-event" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/resend-mailer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/webhook" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
