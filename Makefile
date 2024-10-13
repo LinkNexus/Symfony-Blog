@@ -7,7 +7,6 @@ deploy:
 	ssh -A $(server) 'cd domains/$(subdomain)/public_html && git fetch && git pull && make install'
 
 install: vendor/autoload.php
-	php bin/console asset-map:compile
 	composer dump-env prod
 	npm install
 	npm run build
