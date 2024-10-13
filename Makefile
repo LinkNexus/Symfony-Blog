@@ -1,7 +1,7 @@
 server := "levynkeneng.dev@212.47.70.2"
 subdomain := "symfonyblog.levynkeneng.dev"
 
-.PHONY: deploy
+.PHONY: install deploy
 
 deploy:
 	ssh -A $(server) 'cd domains/$(subdomain)/public_html && git fetch && git pull && make install'
