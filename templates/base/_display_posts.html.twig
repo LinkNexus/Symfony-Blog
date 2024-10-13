@@ -153,7 +153,7 @@
             </div>
             <div class="comment-bar" id="create-comment-bar" data-post-id="{{ post.id|trans }}">
                 {% set avatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+                <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
                 <form action="">
                     <textarea onclick="location.href = '{{ path('app_post_show', { id: post.id }) }}'" class="form-control comment-input" id="comment-input-{{ post.id }}" placeholder="Comment as {{ user.username }}"></textarea>
                     <twig:ux:icon class="comment-button" name="fa-brands:telegram-plane" id="comment-form-button-{{ post.id }}" data-post-id="{{ post.id|trans }}" />
@@ -316,7 +316,7 @@
                 {% for reaction in post.postReactions %}
                     <div class="reaction-block">
                         {% set avatarPath = 'images/' ~ reaction.owner.gender ~ '_icon.jpg' %}
-                        <img src="{{ asset(avatarPath) }}" alt="profile-picture">
+                        <img src="{{ asset(avatarPath|lower) }}" alt="profile-picture">
                         <a href="">{{ reaction.owner.username }}</a>
 
                         {% if reaction.type == "like" %}

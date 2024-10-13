@@ -49,29 +49,29 @@
                 <span class="comment-reply comment-react">Reply</span>
                 <div class="comment-reactions">
                     <div class="comment-likes-block">
-                                    <span class="likes-number">
-                                        {% set likes = 0 %}
-                                        {% for react in comment.commentReactions %}
-                                            {% if react.type == 'like' %}
-                                                {% set likes = likes + 1 %}
-                                            {% endif %}
-                                        {% endfor %}
+                        <span class="likes-number">
+                            {% set likes = 0 %}
+                            {% for react in comment.commentReactions %}
+                                {% if react.type == 'like' %}
+                                    {% set likes = likes + 1 %}
+                                {% endif %}
+                            {% endfor %}
 
-                                        {{ likes }}
-                                    </span>
+                            {{ likes }}
+                        </span>
                         <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
                     </div>
                     <div class="comment-dislikes-block">
-                                    <span class="dislikes-number">
-                                        {% set dislikes = 0 %}
-                                        {% for react in comment.commentReactions %}
-                                            {% if react.type == 'dislike' %}
-                                                {% set dislikes = dislikes + 1 %}
-                                            {% endif %}
-                                        {% endfor %}
+                        <span class="dislikes-number">
+                            {% set dislikes = 0 %}
+                            {% for react in comment.commentReactions %}
+                                {% if react.type == 'dislike' %}
+                                    {% set dislikes = dislikes + 1 %}
+                                {% endif %}
+                            {% endfor %}
 
-                                        {{ dislikes }}
-                                    </span>
+                            {{ dislikes }}
+                        </span>
                         <twig:ux:icon style="color: red;" name="mdi:dislike" />
                     </div>
                 </div>
@@ -212,7 +212,7 @@
 
     <div class="comment-bar" id="comment-bar-{{ comment.id }}">
         {% set userAvatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-        <img src="{{ asset(userAvatarPath) }}" alt="profile_picture">
+        <img src="{{ asset(userAvatarPath|lower) }}" alt="profile_picture">
         <form action="">
             <textarea id="comment-input-{{ comment.id }}" class="form-control comment-input"></textarea>
             <twig:ux:icon name="fa-brands:telegram-plane" data-user-id="{{ comment.owner.id|trans }}" data-comment-id="{{ comment.id|trans }}" class="comment-button" data-post-id="{{ comment.post.id|trans }}" />
@@ -234,7 +234,7 @@
 
             <div class="comment {{ reply.status }}-reply" id="comment-{{ reply.comment.id }}">
                 {% set avatarPath = 'images/' ~ reply.comment.owner.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+                <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
                 <div class="comment-content-block">
                     <div class="comment-content">
                         <div class="user-username">{{ reply.comment.owner.username }}</div>
@@ -445,7 +445,7 @@
 
             <div class="comment-bar" id="comment-bar-{{ reply.comment.id }}">
                 {% set userAvatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(userAvatarPath) }}" alt="profile_picture">
+                <img src="{{ asset(userAvatarPath|lower) }}" alt="profile_picture">
                 <form action="">
                     <textarea id="comment-input-{{ reply.comment.id }}" class="form-control comment-input"></textarea>
                     <twig:ux:icon name="fa-brands:telegram-plane" data-user-id="{{ reply.comment.owner.id|trans }}" data-comment-id="{{ reply.comment.id|trans }}" class="comment-button" data-post-id="{{ reply.comment.post.id|trans }}" />
