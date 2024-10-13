@@ -46,7 +46,7 @@
         "symfony/translation": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
         "symfony/ux-autocomplete": "^2.18",
-        "symfony/ux-dropzone": "^2.18",
+        "symfony/ux-dropzone": "^2.20",
         "symfony/ux-icons": "^2.18",
         "symfony/ux-live-component": "^2.18",
         "symfony/ux-notify": "^2.18",

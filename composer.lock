@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8557361b4c4dfe6470bb141bd78b6719",
+    "content-hash": "7f84a505adb1251baaf2b61a8322d522",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -8211,16 +8211,16 @@
         },
         {
             "name": "symfony/ux-dropzone",
-            "version": "v2.18.0",
+            "version": "v2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-dropzone.git",
-                "reference": "39d875766aa90edf957532c0c95808b4cf64fb0c"
+                "reference": "4105d4fff54dcc1ee13b6e8aac9a2cf6391a8e64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-dropzone/zipball/39d875766aa90edf957532c0c95808b4cf64fb0c",
-                "reference": "39d875766aa90edf957532c0c95808b4cf64fb0c",
+                "url": "https://api.github.com/repos/symfony/ux-dropzone/zipball/4105d4fff54dcc1ee13b6e8aac9a2cf6391a8e64",
+                "reference": "4105d4fff54dcc1ee13b6e8aac9a2cf6391a8e64",
                 "shasum": ""
             },
             "require": {
@@ -8270,7 +8270,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-dropzone/tree/v2.18.0"
+                "source": "https://github.com/symfony/ux-dropzone/tree/v2.20.0"
             },
             "funding": [
                 {
@@ -8286,7 +8286,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-01T17:50:16+00:00"
+            "time": "2024-09-19T15:11:48+00:00"
         },
         {
             "name": "symfony/ux-icons",
@@ -12155,7 +12155,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -12163,6 +12163,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
