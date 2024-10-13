@@ -28,3 +28,6 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /public/uploads/
 Makefile
+composer.lock
+/.idea/
+package-lock.lock
