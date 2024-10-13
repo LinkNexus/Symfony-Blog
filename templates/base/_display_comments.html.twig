@@ -156,7 +156,7 @@
                         <div class="comment-menu-likes">
                             <twig:ux:icon style="color: var(--principal-color);" name="mdi:like" />
                             <span class="likes-number">
-                                            {% set likes = 0 %}
+                                {% set likes = 0 %}
                                 {% for react in comment.commentReactions %}
                                     {% if react.type == 'like' %}
                                         {% set likes = likes + 1 %}
@@ -164,12 +164,12 @@
                                 {% endfor %}
 
                                 {{ likes }}
-                                        </span>
+                            </span>
                         </div>
                         <div class="comment-menu-dislikes">
                             <twig:ux:icon style="color: red;" name="mdi:dislike" />
                             <span class="dislikes-number">
-                                            {% set dislikes = 0 %}
+                                {% set dislikes = 0 %}
                                 {% for react in comment.commentReactions %}
                                     {% if react.type == 'dislike' %}
                                         {% set dislikes = dislikes + 1 %}
@@ -177,7 +177,7 @@
                                 {% endfor %}
 
                                 {{ dislikes }}
-                                        </span>
+                            </span>
                         </div>
                     </div>
                 </div>
