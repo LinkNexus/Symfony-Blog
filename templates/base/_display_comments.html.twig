@@ -1,7 +1,7 @@
 {% for comment in comments %}
     <div class="comment" id="comment-{{ comment.id }}">
         {% set avatarPath = 'images/' ~ comment.owner.gender ~ '_icon.jpg' %}
-        <img src="{{ asset(avatarPath) }}" alt="profile_picture">
+        <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
         <div class="comment-content-block">
             <div class="comment-content">
                 <div class="user-username">{{ comment.owner.username }}</div>

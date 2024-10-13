@@ -3,7 +3,7 @@
         <div class="post-header">
             <div class="profile">
                 {% set postAvatarPath = 'images/' ~ post.owner.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(postAvatarPath) }}" alt="">
+                <img src="{{ asset(postAvatarPath|lower) }}" alt="">
                 <div>
                     <div>
                         <a href="#" class="user-username">{{ post.owner.username }}</a>
