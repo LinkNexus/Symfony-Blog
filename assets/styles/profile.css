@@ -1,5 +1,7 @@
 @import url("app.css");
 
+.dropzone-container{position:relative;display:flex;min-height:100px;border:2px dashed #bbb;align-items:center;padding:20px 10px}.dropzone-input{position:absolute;display:block;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:1}.dropzone-preview{display:flex;align-items:center;max-width:100%}.dropzone-preview-image{flex-basis:0;min-width:50px;max-width:50px;height:50px;margin-right:10px;background-size:contain;background-position:50% 50%;background-repeat:no-repeat}.dropzone-preview-filename{word-wrap:anywhere}.dropzone-preview-button{position:absolute;top:0;right:0;z-index:1;border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.dropzone-preview-button::before{content:'×';padding:3px 7px;cursor:pointer}.dropzone-placeholder{flex-grow:1;text-align:center;color:#999}
+
 .profile-section {
     width: 100%;
     margin-bottom: 300px;
@@ -321,7 +323,7 @@
     }
 }
 
-.profile-options-container-block {
+.profile-options-container-block, .upload-avatar-form-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -333,7 +335,7 @@
     align-items: center;
     justify-content: center;
 
-    & .profile-options-container {
+    & .profile-options-container, & .upload-avatar-form-block {
         background: var(--second-background);
         padding: 10px;
         border-radius: 10px;
@@ -342,13 +344,13 @@
         align-items: center;
         border: 1px solid #dadde1;
         width: 40%;
-        height: 60%;
+        height: fit-content;
         box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.24);
         position: relative;
         overflow: auto;
         max-height: fit-content;
 
-        & .profile-options-container-header {
+        & .profile-options-container-header, & .upload-avatar-container-header {
             display: flex;
             justify-content: center;
             padding: 15px;
@@ -360,7 +362,7 @@
                 justify-self: center;
             }
 
-            & .profile-options-container-close {
+            & .profile-options-container-close, & .upload-avatar-container-close {
                 justify-self: flex-end !important;
                 position: absolute;
                 right: 15px;
@@ -391,7 +393,7 @@
             }
         }
 
-        & .profile-options {
+        & .profile-options, & .upload-avatar-form {
             width: 100%;
 
             & .profile-option {

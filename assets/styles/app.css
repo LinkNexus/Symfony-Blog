@@ -1,8 +1,9 @@
 @import url('bootstrap');
 
 @font-face {
-    font-family: SFProDisplay-Regular;
-    src: url("../fonts/sf-pro-display-cufonfonts/SFPRODISPLAYREGULAR.OTF");
+    font-family: Ginto;
+    /*src: url("../fonts/sf-pro-display-cufonfonts/SFPRODISPLAYREGULAR.OTF");*/
+    src: url("../fonts/ginto/ABCGintoNormal-Light-Trial-BF651b7b783c2cd.otf");
 }
 
 :root {
@@ -43,7 +44,7 @@
 
 body {
     background-color: var(--principal-background);
-    font-family: SFProDisplay-Regular, serif;
+    font-family: Ginto, serif;
     display: flex;
     align-content: center;
     box-sizing: unset;

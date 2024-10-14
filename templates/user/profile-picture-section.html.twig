@@ -17,6 +17,8 @@
     {{ encore_entry_script_tags('profile') }}
 {% endblock %}
 
+{% form_theme uploadForm 'bootstrap_5_layout.html.twig' %}
+
 {% block body %}
 
     {% include 'base/_main_header.html.twig' with { 'user': app.user } %}
@@ -197,6 +199,21 @@
                 {% endblock %}
             </div>
         {% endblock %}
+    </div>
+
+    <div class="upload-avatar-form-container">
+        <div class="upload-avatar-form-block">
+            <div class="upload-avatar-container-header">
+                <h2>Select your profile picture</h2>
+                <div class="upload-avatar-container-close">
+                    <twig:ux:icon name="material-symbols:close" />
+                </div>
+            </div>
+            <div class="upload-avatar-form">
+                {{ form(uploadForm) }}
+                <button class="button">Upload</button>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
