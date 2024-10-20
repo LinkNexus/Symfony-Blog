@@ -2,8 +2,13 @@
     <div class="post-block" id="post_{{ post.id }}">
         <div class="post-header">
             <div class="profile">
-                {% set postAvatarPath = 'images/' ~ post.owner.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(postAvatarPath|lower) }}" alt="">
+                {% set postProfilePicture = "" %}
+                {% if post.owner.profilePicture is not null %}
+                    {% set postProfilePicture = asset("uploads/users/profile-pictures/" ~ post.owner.profilePicture) %}
+                {% else %}
+                    {% set postProfilePicture = asset("images/" ~ post.owner.gender|lower ~ "_icon.jpg") %}
+                {% endif %}
+                <img src="{{ postProfilePicture }}" alt="">
                 <div>
                     <div>
                         <a href="#" class="user-username">{{ post.owner.username }}</a>

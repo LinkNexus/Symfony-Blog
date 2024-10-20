@@ -1,7 +1,12 @@
 <div class="upload-posts-section">
     <div>
-        {% set imagePath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-        <img src="{{ asset(imagePath|lower) }}" alt="profile_pic">
+        {% set profilePicture = "" %}
+        {% if user.profilePicture is not null %}
+            {% set profilePicture = asset("uploads/users/profile-pictures/" ~ user.profilePicture) %}
+        {% else %}
+            {% set profilePicture = asset("images/" ~ user.gender|lower ~ "_icon.jpg") %}
+        {% endif %}
+        <img src="{{ profilePicture }}" alt="profile_pic">
 
         <div class="fake-upload-post-input form-control">
             What's on your mind, {{ user.username }}?

@@ -1,7 +1,13 @@
 {% for comment in comments %}
     <div class="comment" id="comment-{{ comment.id }}">
-        {% set avatarPath = 'images/' ~ comment.owner.gender ~ '_icon.jpg' %}
-        <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
+        {% set profilePicture = "" %}
+        {% if comment.owner.profilePicture is not null %}
+            {% set profilePicture = asset("uploads/users/profile-pictures/" ~ comment.owner.profilePicture) %}
+        {% else %}
+            {% set profilePicture = asset("images/" ~ comment.owner.gender|lower ~ "_icon.jpg") %}
+        {% endif %}
+
+        <img src="{{ profilePicture }}" alt="profile_picture">
         <div class="comment-content-block">
             <div class="comment-content">
                 <div class="user-username">{{ comment.owner.username }}</div>
@@ -211,8 +217,7 @@
     </div>
 
     <div class="comment-bar" id="comment-bar-{{ comment.id }}">
-        {% set userAvatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-        <img src="{{ asset(userAvatarPath|lower) }}" alt="profile_picture">
+        <img src="{{ profilePicture }}" alt="profile_picture">
         <form action="">
             <textarea id="comment-input-{{ comment.id }}" class="form-control comment-input"></textarea>
             <twig:ux:icon name="fa-brands:telegram-plane" data-user-id="{{ comment.owner.id|trans }}" data-comment-id="{{ comment.id|trans }}" class="comment-button" data-post-id="{{ comment.post.id|trans }}" />
@@ -233,8 +238,13 @@
         <div class="{{ reply.status }}-reply-container">
 
             <div class="comment {{ reply.status }}-reply" id="comment-{{ reply.comment.id }}">
-                {% set avatarPath = 'images/' ~ reply.comment.owner.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
+                {% set profilePicture = "" %}
+                {% if reply.comment.owner.profilePicture is not null %}
+                    {% set profilePicture = asset("uploads/users/profile-pictures/" ~ reply.comment.owner..profilePicture) %}
+                {% else %}
+                    {% set profilePicture = asset("images/" ~ reply.comment.owner..gender|lower ~ "_icon.jpg") %}
+                {% endif %}
+                <img src="{{ profilePicture }}" alt="profile_picture">
                 <div class="comment-content-block">
                     <div class="comment-content">
                         <div class="user-username">{{ reply.comment.owner.username }}</div>
@@ -444,8 +454,13 @@
             </div>
 
             <div class="comment-bar" id="comment-bar-{{ reply.comment.id }}">
-                {% set userAvatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-                <img src="{{ asset(userAvatarPath|lower) }}" alt="profile_picture">
+                {% set userProfilePicture = "" %}
+                {% if reply.comment.owner.profilePicture is not null %}
+                    {% set userProfilePicture = asset("uploads/users/profile-pictures/" ~ reply.comment.owner.profilePicture) %}
+                {% else %}
+                    {% set userProfilePicture = asset("images/" ~ reply.comment.owner.gender|lower ~ "_icon.jpg") %}
+                {% endif %}
+                <img src="{{ userProfilePicture }}" alt="profile_picture">
                 <form action="">
                     <textarea id="comment-input-{{ reply.comment.id }}" class="form-control comment-input"></textarea>
                     <twig:ux:icon name="fa-brands:telegram-plane" data-user-id="{{ reply.comment.owner.id|trans }}" data-comment-id="{{ reply.comment.id|trans }}" class="comment-button" data-post-id="{{ reply.comment.post.id|trans }}" />

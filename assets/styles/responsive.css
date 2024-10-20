@@ -120,6 +120,10 @@
             }
         }
     }
+
+    .upload-avatar-form-block {
+        width: 80% !important;
+    }
 }
 
 @media only screen and (max-width: 925px) {

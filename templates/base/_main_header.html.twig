@@ -1,3 +1,10 @@
+{% set profilePicture = "" %}
+{% if user.profilePicture is not null %}
+    {% set profilePicture = asset("uploads/users/profile-pictures/" ~ user.profilePicture) %}
+{% else %}
+    {% set profilePicture = asset("images/" ~ user.gender|lower ~ "_icon.jpg") %}
+{% endif %}
+
 <header class="main-header">
     <div class="search-bar-part">
         <a href="{{ path('app_home') }}">
@@ -44,8 +51,7 @@
             <twig:ux:icon name="clarity:notification-solid" />
         </div>
         <div class="header-action profile-picture">
-            {% set avatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-            <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
+            <img src="{{ profilePicture }}" alt="profile_picture">
         </div>
     </div>
 </header>
@@ -212,8 +218,8 @@
 
 <div class="profile-menu">
     <div class="profiles-block">
-        <div onclick="window.location.href = '{{ path('app_profile', { slug: user.slug }) }}'" class="profile">
-            <img src="{{ (avatarPath|lower) }}" alt="profile_picture">
+        <div onclick="window.location.href = '{{ path('app_profile_index', { slug: user.slug }) }}'" class="profile">
+            <img src="{{ profilePicture }}" alt="profile_picture">
             <span>{{ user.username }}</span>
         </div>
         <a href="">See all profiles</a>

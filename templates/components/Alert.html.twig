@@ -1,0 +1,7 @@
+<div class="alert alert-{{ type }}">
+    {% for message in messages %}
+        <p>
+            {{ message|trans }}
+        </p>
+    {% endfor %}
+</div>

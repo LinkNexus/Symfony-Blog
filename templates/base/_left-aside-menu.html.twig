@@ -2,8 +2,13 @@
 
     <div class="left-aside-menu-elements">
         <a href="#" class="left-aside-menu-element">
-            {% set avatarPath = 'images/' ~ user.gender ~ '_icon.jpg' %}
-            <img src="{{ asset(avatarPath|lower) }}" alt="profile_picture">
+            {% set profilePicture = "" %}
+            {% if user.profilePicture is not null %}
+                {% set profilePicture = asset("uploads/users/profile-pictures/" ~ user.profilePicture) %}
+            {% else %}
+                {% set profilePicture = asset("images/" ~ user.gender|lower ~ "_icon.jpg") %}
+            {% endif %}
+            <img src="{{ profilePicture }}" alt="profile_picture">
             <span>{{ user.username }}</span>
         </a>
         <a href="#" class="left-aside-menu-element">

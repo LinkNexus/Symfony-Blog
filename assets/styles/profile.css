@@ -1,3 +1,4 @@
+@import '~cropperjs/dist/cropper.min.css';
 @import url("app.css");
 
 .dropzone-container{position:relative;display:flex;min-height:100px;border:2px dashed #bbb;align-items:center;padding:20px 10px}.dropzone-input{position:absolute;display:block;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:1}.dropzone-preview{display:flex;align-items:center;max-width:100%}.dropzone-preview-image{flex-basis:0;min-width:50px;max-width:50px;height:50px;margin-right:10px;background-size:contain;background-position:50% 50%;background-repeat:no-repeat}.dropzone-preview-filename{word-wrap:anywhere}.dropzone-preview-button{position:absolute;top:0;right:0;z-index:1;border:none;margin:0;padding:0;width:auto;overflow:visible;background:0 0;color:inherit;font:inherit;line-height:normal;-webkit-font-smoothing:inherit;-moz-osx-font-smoothing:inherit;-webkit-appearance:none}.dropzone-preview-button::before{content:'×';padding:3px 7px;cursor:pointer}.dropzone-placeholder{flex-grow:1;text-align:center;color:#999}
@@ -323,7 +324,7 @@
     }
 }
 
-.profile-options-container-block, .upload-avatar-form-container {
+.profile-options-container-block, .upload-avatar-form-container, .crop-avatar-form-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -335,7 +336,11 @@
     align-items: center;
     justify-content: center;
 
-    & .profile-options-container, & .upload-avatar-form-block {
+    &.crop-avatar-form-container {
+        display: flex;
+    }
+
+    & .profile-options-container, & .upload-avatar-form-block, & .crop-avatar-form-block {
         background: var(--second-background);
         padding: 10px;
         border-radius: 10px;
@@ -350,19 +355,34 @@
         overflow: auto;
         max-height: fit-content;
 
-        & .profile-options-container-header, & .upload-avatar-container-header {
+        &.crop-avatar-form-block {
+            width: 90%;
+            max-height: 90%;
+        }
+
+        &.upload-avatar-form-block {
+            width: 60%;
+
+            & .dropzone-container {
+                height: 200px;
+            }
+        }
+
+        & .profile-options-container-header, & .upload-avatar-container-header, & .crop-avatar-container-header {
             display: flex;
             justify-content: center;
             padding: 15px;
             width: 100%;
             border-bottom: 1px solid #dadde1;
             margin-bottom: 10px;
+            align-content: center;
 
             & h2 {
                 justify-self: center;
+                text-align: center;
             }
 
-            & .profile-options-container-close, & .upload-avatar-container-close {
+            & .profile-options-container-close, & .upload-avatar-container-close, & .crop-avatar-container-close {
                 justify-self: flex-end !important;
                 position: absolute;
                 right: 15px;
@@ -393,7 +413,7 @@
             }
         }
 
-        & .profile-options, & .upload-avatar-form {
+        & .profile-options, & .upload-avatar-form, & .crop-avatar-form {
             width: 100%;
 
             & .profile-option {
@@ -425,6 +445,10 @@
                     transform: scale(0.98);
                     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
                 }
+            }
+
+            & button.button {
+                color: var(--principal-color) !important;
             }
         }
     }

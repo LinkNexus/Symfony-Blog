@@ -7,7 +7,15 @@ const profileNavBarActions = document.querySelectorAll('.profile-nav-bar-actions
     profileNavBarDropdownChevronDown = document.querySelector(".profile-nav-bar-dropdown-trigger .chevron-down"),
     profileOptionsBlock = document.querySelector('.profile-options-container-block'),
     profileOptionsBlockTrigger = document.querySelector('.supplementary-actions-button'),
-    profileOptionsBlockClose = document.querySelector('.profile-options-container-close');
+    profileOptionsBlockClose = document.querySelector('.profile-options-container-close'),
+    profileImageContainer = document.querySelector(".profile-image-block .image-container"),
+    profileImageBlockButton = document.querySelector(".profile-image-block-button"),
+    uploadAvatarFormContainer = document.querySelector("#profile-picture-form.upload-avatar-form-container"),
+    uploadAvatarFormClose = document.querySelector("#profile-picture-form .upload-avatar-container-close"),
+    uploadCoverFormContainer = document.querySelector("#cover-photo-form.upload-avatar-form-container"),
+    uploadCoverFormClose = document.querySelector("#cover-photo-form .upload-avatar-container-close"),
+    coverPhotoButton = document.querySelector(".cover-photo-button"),
+    coverPhoto = document.querySelector(".cover-photo");
 
 profileNavBarDropdownTrigger.addEventListener("click", function () {
     if (getComputedStyle(profileNavBarDropdown).display === "none") {
@@ -46,6 +54,48 @@ if (urlParts[2] !== "") {
     }
 } else
     profileNavBarActions[0].classList.add('active');
+
+const defaultProfileImages = [
+    "male_icon.jpg",
+    "female_icon.jpg",
+    "other_icon.jpg"
+];
+
+profileImageBlockButton.addEventListener("click", function () {
+    uploadAvatarFormContainer.style.display = "flex";
+});
+
+coverPhotoButton.addEventListener("click", function () {
+    uploadCoverFormContainer.style.display = "flex";
+})
+
+uploadAvatarFormClose?.addEventListener("click", function () {
+    uploadAvatarFormContainer.style.display = "none";
+})
+
+uploadCoverFormClose?.addEventListener("click", function () {
+    uploadCoverFormContainer.style.display = "none";
+})
+
+profileImageContainer.addEventListener("click", function () {
+    if (defaultProfileImages.includes(this.children[0].getAttribute("src").replace("/images/", ""))) {
+        uploadAvatarFormContainer.style.display = "flex";
+    } else {
+        location.href = this.children[0].getAttribute("src");
+    }
+})
+
+coverPhoto.addEventListener("click", function () {
+    if (getComputedStyle(this).backgroundColor === "rgb(240, 242, 245)") {
+        uploadCoverFormContainer.style.display = "flex";
+    } else {
+        const backgroundImage = getComputedStyle(this).backgroundImage;
+        const urlMatch = backgroundImage.match(/url\(["']?([^"']*)["']?\)/);
+        if (urlMatch) {
+            location.href = urlMatch[1];
+        }
+    }
+})
 
 function onVisible(element, callback) {
     new IntersectionObserver((entries, observer) => {

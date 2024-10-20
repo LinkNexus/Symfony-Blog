@@ -1,0 +1,27 @@
+{% set text = "" %}
+{% set key = "" %}
+
+{% for part in type|split("-") %}
+    {% set text = text ~ " " ~ part %}
+    {% set key = key ~ part|capitalize %}
+{% endfor %}
+
+{% set key = key[:1]|lower ~ key[1:] %}
+
+<div class="upload-avatar-form-container" id="{{ id }}">
+    <div class="upload-avatar-form-block">
+        <div class="upload-avatar-container-header">
+            <h2>Select your{{ text }}</h2>
+            <div class="upload-avatar-container-close">
+                <twig:ux:icon name="material-symbols:close" />
+            </div>
+        </div>
+        <div class="upload-avatar-form">
+            {{ form_start(form) }}
+            {{ form_widget(form[key]) }}
+            <button type="submit" class="button">Upload</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+

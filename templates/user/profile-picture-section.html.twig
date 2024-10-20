@@ -7,6 +7,7 @@
     {{ encore_entry_link_tags('main') }}
     {{ encore_entry_link_tags('posts') }}
     {{ encore_entry_link_tags('profile') }}
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" integrity="sha512-UtLOu9C7NuThQhuXXrGwx9Jb/z9zPQJctuAgNUBK3Z6kkSYT9wJ+2+dh6klS+TDBCV9kNPBbAxbVD+vCcfGPaA==" crossorigin="anonymous" referrerpolicy="no-referrer" />#}
 {% endblock %}
 
 {% block javascripts %}
@@ -17,7 +18,9 @@
     {{ encore_entry_script_tags('profile') }}
 {% endblock %}
 
-{% form_theme uploadForm 'bootstrap_5_layout.html.twig' %}
+{% if uploadAvatarForm is not null %}
+    {% form_theme uploadAvatarForm 'bootstrap_5_layout.html.twig' %}
+{% endif %}
 
 {% block body %}
 
@@ -50,7 +53,12 @@
 
                     .cover-photo {
                         background-size: 110% !important;
-                        background: url('{{ asset('images/cover_photo.jpg') }}') no-repeat center;
+
+                    {% if user.coverPhoto is not null %}
+                        background: url('{{ asset("uploads/users/cover-photos/" ~ user.coverPhoto) }}') no-repeat center;
+                    {% else %}
+                        background: var(--principal-background) no-repeat center;
+                    {% endif %}
 
                         &:hover {
                             filter: brightness(90%);
@@ -60,10 +68,12 @@
                 </style>
                 <div class="cover-photo">
                     <div class="cover-photo-button-container">
-                        <div class="cover-photo-button">
-                            <twig:ux:icon name="f7:camera-fill" />
-                            <span>Edit cover photo</span>
-                        </div>
+                        {% if user == app.user %}
+                            <div class="cover-photo-button">
+                                <twig:ux:icon name="f7:camera-fill" />
+                                <span>Edit cover photo</span>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -71,11 +81,25 @@
                     <div class="profile-picture-infos">
                         <div class="profile-image-block">
                             <div class="image-container">
-                                <img src="{{ asset('images/profile_pic.jpg') }}" alt="profile_image">
+                                {% set profilePicture = "" %}
+                                {% if user.profilePicture is not null %}
+                                    {% set profilePicture = asset("uploads/users/profile-pictures/" ~ user.profilePicture) %}
+                                {% else %}
+                                    {% set profilePicture = asset("images/" ~ user.gender|lower ~ "_icon.jpg") %}
+                                {% endif %}
+                                <img src="{{ profilePicture }}" alt="profile-picture">
                             </div>
-                            <div class="profile-image-block-button">
-                                <twig:ux:icon name="f7:camera-fill" />
-                            </div>
+                            {% if user == app.user %}
+                                <div class="profile-image-block-button">
+                                    <twig:ux:icon name="f7:camera-fill" />
+                                </div>
+                            {% else  %}
+                                <style>
+                                    .profile-infos {
+                                        margin-left: 0 !important;
+                                    }
+                                </style>
+                            {% endif %}
                         </div>
 
                         <div class="profile-infos">
@@ -201,19 +225,54 @@
         {% endblock %}
     </div>
 
-    <div class="upload-avatar-form-container">
-        <div class="upload-avatar-form-block">
-            <div class="upload-avatar-container-header">
-                <h2>Select your profile picture</h2>
-                <div class="upload-avatar-container-close">
-                    <twig:ux:icon name="material-symbols:close" />
+    {% if uploadAvatarForm is not null %}
+{#        <div class="upload-avatar-form-container">#}
+{#            <div class="upload-avatar-form-block">#}
+{#                <div class="upload-avatar-container-header">#}
+{#                    <h2>Select your profile picture</h2>#}
+{#                    <div class="upload-avatar-container-close">#}
+{#                        <twig:ux:icon name="material-symbols:close" />#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="upload-avatar-form">#}
+{#                    {{ form_start(uploadAvatarForm) }}#}
+{#                    {{ form_widget(uploadAvatarForm.profilePicture) }}#}
+{#                    <button type="submit" class="button">Upload</button>#}
+{#                    {{ form_end(uploadAvatarForm) }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <twig:UploadImageForm id="profile-picture-form" form="{{ uploadAvatarForm }}" type="profile-picture" />
+    {% endif %}
+
+    {% if uploadCoverForm is not null %}
+        <twig:UploadImageForm id="cover-photo-form" form="{{ uploadCoverForm }}" type="cover-photo" />
+    {% endif %}
+
+    {{ dump(uploadAvatarForm) }}
+
+    {% if cropForm is not null %}
+        <div class="crop-avatar-form-container">
+            <div class="crop-avatar-form-block">
+                <div class="crop-avatar-container-header">
+                    <h2>Adjust your profile picture</h2>
+                    <div class="crop-avatar-container-close">
+                        <twig:ux:icon name="material-symbols:close" />
+                    </div>
+                </div>
+                <div class="crop-avatar-form">
+                    {{ form_start(cropForm) }}
+                    <div class="row">
+                        <div class="col-9">{{ form_widget(cropForm) }}</div>
+                        <div class="col-3">
+                            <div id="cropper-preview" style="overflow: hidden;width: 200px;height: 200px;"></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="button mt-5" style="width: 100%;">Crop it!</button>
+                    {{ form_end(cropForm) }}
                 </div>
             </div>
-            <div class="upload-avatar-form">
-                {{ form(uploadForm) }}
-                <button class="button">Upload</button>
-            </div>
         </div>
-    </div>
+    {% endif %}
 
 {% endblock %}

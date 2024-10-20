@@ -84,6 +84,15 @@ img, video, svg {
     }
 }
 
+.alert {
+    & p {
+        text-align: center;
+        &:last-child {
+            margin-bottom: 0
+        }
+    }
+}
+
 .website-name {
     display: flex;
     align-items: center;

@@ -1,27 +1,12 @@
 <div class="alerts">
     {% for type, messages in app.flashes %}
-        <div class="alert alert-{{ type }}">
-            {% for message in messages %}
-                <p>
-                    {{ message|trans }}
-                </p>
-            {% endfor %}
-        </div>
+        <twig:Alert type="{{ type }}" messages="{{ messages }}"/>
     {% endfor %}
 </div>
 
 <style>
         .alerts {
                 width: 100%;
-
-                .alert {
-                        & p {
-                                text-align: center;
-                                &:last-child {
-                                        margin-bottom: 0
-                                }
-                        }
-                }
         }
 </style>
 
