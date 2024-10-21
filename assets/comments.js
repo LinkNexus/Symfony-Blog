@@ -68,7 +68,8 @@ const commentFormButtons = document.querySelectorAll(".comment-button"),
     createCommentForm =  document.getElementById("create-comment-bar"),
     reportCommentButtons = document.querySelectorAll(".report-comment"),
     blockUserButtons = document.querySelectorAll(".block-author"),
-    unblockUserButtons = document.querySelectorAll(".unblock-author");
+    unblockUserButtons = document.querySelectorAll(".unblock-author"),
+    userUsername = document.querySelectorAll(".user-username");
 
 const onRepliesPage = document.querySelector(".comments") === null,
     onHomePage = document.querySelector(".stories-block") !== null;
@@ -145,7 +146,7 @@ for (const commentInput of commentInputs) {
     commentInputsIndex++;
 }
 
-console.log(commentEditors.length, commentFormButtons.length)
+lo
 // Check if the editors does not have empty content using a visual indication
 function checkAllEditorsContents() {
     for (let i = 0; i < commentEditors.length; i++) {
@@ -209,6 +210,7 @@ if (!onHomePage) {
                     commentEditors[commentBars.length - 1].html.set("");
                 }
             } else {
+                console.log(commentEditors[i + 1])
                 commentBars[i + 1].style.display = "flex";
                 commentBars[i + 1].removeAttribute("toBeEdited");
                 commentEditors[i + 1].html.set("");
