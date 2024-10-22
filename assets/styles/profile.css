@@ -416,6 +416,11 @@
         & .profile-options, & .upload-avatar-form, & .crop-avatar-form {
             width: 100%;
 
+            &.upload-avatar-form {
+                border-bottom: 1px solid #dadde1;
+                padding-bottom: 20px;
+            }
+
             & .profile-option {
                 display: flex;
                 align-items: center;

@@ -11,17 +11,28 @@
 <div class="upload-avatar-form-container" id="{{ id }}">
     <div class="upload-avatar-form-block">
         <div class="upload-avatar-container-header">
-            <h2>Select your{{ text }}</h2>
+            <h2>Select your {{ text|trim }}</h2>
             <div class="upload-avatar-container-close">
                 <twig:ux:icon name="material-symbols:close" />
             </div>
         </div>
-        <div class="upload-avatar-form">
+        <div style="width: 100%;" class="upload-avatar-form">
             {{ form_start(form) }}
             {{ form_widget(form[key]) }}
             <button type="submit" class="button">Upload</button>
             {{ form_end(form) }}
         </div>
+        {% if type == "profile-picture" %}
+            {% set hasPicture = app.user.profilePicture is not null %}
+        {% else %}
+            {% set hasPicture = app.user.coverPhoto is not null %}
+        {% endif %}
+
+        {% if hasPicture %}
+            <div style="width: 100%;">
+                <a href="{{ path("app_profile_image_delete", { slug: app.user.slug, type: type }) }}" class="button">Remove Picture</a>
+            </div>
+        {% endif %}
     </div>
 </div>
 

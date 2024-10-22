@@ -77,7 +77,8 @@ uploadCoverFormClose?.addEventListener("click", function () {
     uploadCoverFormContainer.style.display = "none";
 })
 
-profileImageContainer.addEventListener("click", function () {
+profileImageContainer.addEventListener("click", function (evt) {
+    // evt.stopPropagation();
     if (defaultProfileImages.includes(this.children[0].getAttribute("src").replace("/images/", ""))) {
         uploadAvatarFormContainer.style.display = "flex";
     } else {
@@ -85,7 +86,9 @@ profileImageContainer.addEventListener("click", function () {
     }
 })
 
-coverPhoto.addEventListener("click", function () {
+coverPhoto.addEventListener("click", function (evt) {
+    evt.stopPropagation();
+    evt.stopImmediatePropagation();
     if (getComputedStyle(this).backgroundColor === "rgb(240, 242, 245)") {
         uploadCoverFormContainer.style.display = "flex";
     } else {

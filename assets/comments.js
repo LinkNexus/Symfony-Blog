@@ -145,8 +145,6 @@ for (const commentInput of commentInputs) {
     commentEditors.push(editor);
     commentInputsIndex++;
 }
-
-lo
 // Check if the editors does not have empty content using a visual indication
 function checkAllEditorsContents() {
     for (let i = 0; i < commentEditors.length; i++) {

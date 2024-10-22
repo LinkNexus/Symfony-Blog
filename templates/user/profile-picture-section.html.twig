@@ -226,30 +226,12 @@
     </div>
 
     {% if uploadAvatarForm is not null %}
-{#        <div class="upload-avatar-form-container">#}
-{#            <div class="upload-avatar-form-block">#}
-{#                <div class="upload-avatar-container-header">#}
-{#                    <h2>Select your profile picture</h2>#}
-{#                    <div class="upload-avatar-container-close">#}
-{#                        <twig:ux:icon name="material-symbols:close" />#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="upload-avatar-form">#}
-{#                    {{ form_start(uploadAvatarForm) }}#}
-{#                    {{ form_widget(uploadAvatarForm.profilePicture) }}#}
-{#                    <button type="submit" class="button">Upload</button>#}
-{#                    {{ form_end(uploadAvatarForm) }}#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
         <twig:UploadImageForm id="profile-picture-form" form="{{ uploadAvatarForm }}" type="profile-picture" />
     {% endif %}
 
     {% if uploadCoverForm is not null %}
         <twig:UploadImageForm id="cover-photo-form" form="{{ uploadCoverForm }}" type="cover-photo" />
     {% endif %}
-
-    {{ dump(uploadAvatarForm) }}
 
     {% if cropForm is not null %}
         <div class="crop-avatar-form-container">

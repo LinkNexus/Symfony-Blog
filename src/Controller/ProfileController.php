@@ -130,6 +130,30 @@ class ProfileController extends AbstractController
         return $this->redirectToRoute("app_profile_index", ["slug" => $user->getSlug()]);
     }
 
+    #[Route(path: "/{type}/delete", name: "image_delete")]
+    public function deleteImages(
+        string $type,
+        #[MapEntity(mapping: ["slug" => "slug"])]
+        User $user
+    ): RedirectResponse
+    {
+        if ($type === "profile-picture") {
+            $image = $user->getProfilePicture();
+            $user->setProfilePicture(null);
+        } else {
+            $image = $user->getCoverPhoto();
+            $user->setCoverPhoto(null);
+        }
+
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->projectDir . "/public/uploads/users/" . $type . "s/". $image);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute("app_profile_index", [
+            "slug" => $user->getSlug()
+        ]);
+    }
+
     #[Route("/crop/{type}/{image}", name: "crop")]
     public function crop(
         string $image,

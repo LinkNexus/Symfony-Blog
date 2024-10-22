@@ -761,5 +761,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
 
         return $this;
     }
-
 }
