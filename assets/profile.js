@@ -61,11 +61,11 @@ const defaultProfileImages = [
     "other_icon.jpg"
 ];
 
-profileImageBlockButton.addEventListener("click", function () {
+profileImageBlockButton?.addEventListener("click", function () {
     uploadAvatarFormContainer.style.display = "flex";
 });
 
-coverPhotoButton.addEventListener("click", function () {
+coverPhotoButton?.addEventListener("click", function () {
     uploadCoverFormContainer.style.display = "flex";
 })
 

@@ -50,6 +50,18 @@
         left: 7% !important;
         width: calc(100% - 7% - 275px) !important;
     }
+
+    .profile-content {
+        justify-content: center !important;
+
+        & .profile-content-aside-menus {
+            display: none !important;
+        }
+
+        & .profile-main-content {
+            width: 80% !important;
+        }
+    }
 }
 
 @media only screen and (max-width: 975px) {
@@ -170,6 +182,21 @@
 
     .comment-reactions-container, .post-reactions-container, .profile-options-container {
         width: 60% !important;
+    }
+
+    & .fake-upload-post-input {
+        max-height: 40px !important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .profile-content {
+        width: 90% !important;
+
+        & .profile-main-content {
+            width: 100% !important;
+        }
     }
 }
 
