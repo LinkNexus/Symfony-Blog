@@ -6,7 +6,7 @@
         {% else %}
             {% set profilePicture = asset("images/" ~ user.gender|lower ~ "_icon.jpg") %}
         {% endif %}
-        <img class="profile-image" src="{{ profilePicture }}" alt="profile_pic">
+        <img class="profile-image" data-user-id="{{ user.id|trans }}" src="{{ profilePicture }}" alt="profile_pic">
 
         <div class="fake-upload-post-input form-control">
             What's on your mind, {{ user.username }}?
