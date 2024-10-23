@@ -1,7 +1,7 @@
 <aside class="left-aside-menu">
 
     <div class="left-aside-menu-elements">
-        <a href="#" class="left-aside-menu-element">
+        <a href="{{ path("app_profile_index", { slug: user.slug }) }}" class="left-aside-menu-element">
             {% set profilePicture = "" %}
             {% if user.profilePicture is not null %}
                 {% set profilePicture = asset("uploads/users/profile-pictures/" ~ user.profilePicture) %}

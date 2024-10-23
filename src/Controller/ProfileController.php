@@ -89,7 +89,8 @@ class ProfileController extends AbstractController
             "user" => $user,
             'uploadAvatarForm' => $uploadAvatarForm,
             "uploadCoverForm" => $uploadCoverForm,
-            "cropForm" => null
+            "cropForm" => null,
+            "posts" => $user->getPosts()
         ]);
     }
 

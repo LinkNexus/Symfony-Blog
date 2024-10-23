@@ -15,6 +15,7 @@ import 'froala-editor/js/languages/en_gb.js';
 import 'froala-editor/js/plugins.pkgd.min.js';
 import 'froala-editor/css/plugins.pkgd.min.css';
 import 'froala-editor/css/themes/dark.min.css';
+import Utilities from "./utilities";
 
 window.FroalaEditor = FroalaEditor;
 
@@ -285,4 +286,13 @@ if (submitButton && createPostFormTitle && createPostFormTitle.innerText === 'Up
     if (postFormAudienceSelect.value.includes('friends_except') || postFormAudienceSelect.value.includes('specific_friends')) {
         postAudience.style.display = "block";
     }
+}
+
+const profileImages = document.querySelectorAll(".profile-image");
+
+for (const profileImage of profileImages) {
+    profileImage.addEventListener("click", async function () {
+        const user = await Utilities.getUser(this.getAttribute("data-user-id"));
+        location.href = `/${user.slug}`
+    })
 }

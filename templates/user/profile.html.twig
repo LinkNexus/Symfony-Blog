@@ -60,6 +60,12 @@
 
     <div class="profile-main-content">
         {% include "base/_upload_posts_section.html.twig" %}
+
+        <div class="posts">
+            {% include "base/_display_posts.html.twig" with {
+                onHomePage: true
+            } %}
+        </div>
     </div>
 {% endblock %}
 

@@ -104,6 +104,9 @@
 
                         <div class="profile-infos">
                             <span class="user-username">{{ user.username }}</span>
+                            {% if "ROLE_ADMIN" in user.roles %}
+                                <span style="font-style: italic; font-size: 20px; color: var(--secondary-text-color)" class="status">Admin</span>
+                            {% endif %}
                             <span class="friends-number">0 friends</span>
                             <div class="friends-area"></div>
                         </div>

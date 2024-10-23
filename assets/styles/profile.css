@@ -371,6 +371,7 @@
                     width: 30%;
                     margin-right: 10px;
                     margin-bottom: 10px;
+                    aspect-ratio: 1;
 
                     & span {
                         font-size: 14px;
@@ -395,6 +396,14 @@
         & .upload-posts-section {
             width: 100%;
             margin-top: 0;
+        }
+
+        & .posts {
+            width: 100%;
+
+            & .post-block {
+                width: 100%;
+            }
         }
     }
 }

@@ -10,6 +10,17 @@ export default class Utilities {
                 return false;
             });
     }
+
+    static getUser(identifier) {
+        const url = `/fetch/${identifier}`;
+        return fetch(url, { method: "POST" })
+            .then(response => response.json())
+            .then(data => data)
+            .catch((error) => {
+                console.error(error);
+                return false;
+            })
+    }
     /* static confirmAction(message, action) {
         if (confirm(message)) {
             return fetch(action, {method: "POST"})

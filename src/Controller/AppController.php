@@ -27,6 +27,20 @@ class AppController extends AbstractController
         return new JsonResponse($this->getUser());
     }
 
+    #[Route(path: "/fetch/{identifier}", name: "fetch-user", methods: ["POST"])]
+    public function fetchUser(string $identifier): JsonResponse
+    {
+        $user = $this->entityManager->getRepository(User::class)
+            ->createQueryBuilder("u")
+            ->where("u.id = :val")
+            ->orWhere("u.username = :val")
+            ->setParameter("val", $identifier)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return new JsonResponse($user);
+    }
+
     #[IsGranted('ROLE_USER', message: "You need to be logged-in before accessing this page")]
     #[Route('/', name: 'app_home')]
     public function index(): Response
