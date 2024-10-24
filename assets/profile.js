@@ -79,7 +79,10 @@ uploadCoverFormClose?.addEventListener("click", function () {
 
 profileImageContainer.addEventListener("click", function (evt) {
     // evt.stopPropagation();
-    if (defaultProfileImages.includes(this.children[0].getAttribute("src").replace("/images/", ""))) {
+    if (
+        defaultProfileImages.includes(this.children[0].getAttribute("src").replace("/images/", "")) &&
+        this.dataset.authenticatedUser === this.dataset.user
+    ) {
         uploadAvatarFormContainer.style.display = "flex";
     } else {
         location.href = this.children[0].getAttribute("src");
@@ -88,9 +91,9 @@ profileImageContainer.addEventListener("click", function (evt) {
 
 coverPhoto.addEventListener("click", function (evt) {
     evt.stopPropagation();
-    evt.stopImmediatePropagation();
-    if (getComputedStyle(this).backgroundColor === "rgb(240, 242, 245)") {
-        uploadCoverFormContainer.style.display = "flex";
+
+    if (getComputedStyle(this).backgroundColor === "rgb(240, 242, 245)" && this.dataset.authenticatedUser === this.dataset.user) {
+            uploadCoverFormContainer.style.display = "flex";
     } else {
         const backgroundImage = getComputedStyle(this).backgroundImage;
         const urlMatch = backgroundImage.match(/url\(["']?([^"']*)["']?\)/);

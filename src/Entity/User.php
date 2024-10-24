@@ -474,7 +474,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \JsonSe
             "id" => $this->getId(),
             "username" => $this->getUsername(),
             "email" => $this->getEmail(),
-            "password" => $this->getPassword(),
             "roles" => $this->getRoles(),
             "joinedAt" => $this->getJoinedAt(),
             "slug" => $this->getSlug(),
