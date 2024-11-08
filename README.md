@@ -1,4 +1,4 @@
-# ReactTodoList
+# Symfony Blog
 
 A Facebook-like app for individuals and teams with powerful functionalities for team work and organization.
 Made in Symfony, a popular PHP Framework for its base and core functionalities on the server side.
