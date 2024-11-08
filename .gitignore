@@ -31,3 +31,4 @@ composer.lock
 /.idea/
 package-lock.json
 migrations/
+symfony.lock

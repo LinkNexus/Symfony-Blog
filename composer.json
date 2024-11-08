@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.12",
@@ -50,7 +51,7 @@
         "symfony/ux-cropperjs": "^2.20",
         "symfony/ux-dropzone": "^2.20",
         "symfony/ux-icons": "^2.18",
-        "symfony/ux-live-component": "^2.18",
+        "symfony/ux-live-component": "^2.21",
         "symfony/ux-notify": "^2.18",
         "symfony/ux-toggle-password": "^2.18",
         "symfony/ux-twig-component": "^2.18",
@@ -66,7 +67,7 @@
         "twig/extra-bundle": "^3.10",
         "twig/inky-extra": "^3.10",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^2.4","ext-gd": "*"
+        "vich/uploader-bundle": "^2.4"
     },
     "config": {
         "allow-plugins": {
